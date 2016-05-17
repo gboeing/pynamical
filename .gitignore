@@ -4,8 +4,6 @@
 *.pdf
 images/animation/*/*.png
 images/cobweb-animate/*.png
-images-animation/*/*.png
-images/lorenz-animate/*.png
 
 # Compiled source #
 ###################
