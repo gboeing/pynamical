@@ -1,36 +1,78 @@
-############################################################################################################################################
+#################################################################################################################
 # pynamical.py
 # Author: Geoff Boeing
 # Web: http://geoffboeing.com/
 # Code repo: https://github.com/gboeing/pynamical
 # Demonstration: http://geoffboeing.com/2015/03/chaos-theory-logistic-map/
-# Pynamical is a Python package for modeling and visualizing discrete nonlinear dynamical systems
-############################################################################################################################################
+# Description: Pynamical is a Python module for modeling and visualizing discrete nonlinear dynamical systems
+# Dependencies: pandas, numpy, matplotlib
+#################################################################################################################
 
-import pandas as pd, numpy as np, matplotlib.pyplot as plt
-import matplotlib.cm as cm, matplotlib.font_manager as fm
+import pandas as pd, numpy as np
+import matplotlib.pyplot as plt, matplotlib.cm as cm, matplotlib.font_manager as fm
 from mpl_toolkits.mplot3d import Axes3D
 
 
-# define the fonts to use for plots
-family = 'Myriad Pro'
-title_font = fm.FontProperties(family=family, style='normal', size=20, weight='normal', stretch='normal')
-label_font = fm.FontProperties(family=family, style='normal', size=16, weight='normal', stretch='normal')
-ticks_font = fm.FontProperties(family=family, style='normal', size=12, weight='normal', stretch='normal')
-annot_font = fm.FontProperties(family=family, style='normal', size=12, weight='normal', stretch='normal')
+# define the fonts to use for plot titles, labels, ticks, and annotations
+font_family = 'Myriad Pro'
+title_font = fm.FontProperties(family=font_family, style='normal', size=20, weight='normal', stretch='normal')
+label_font = fm.FontProperties(family=font_family, style='normal', size=16, weight='normal', stretch='normal')
+ticks_font = fm.FontProperties(family=font_family, style='normal', size=12, weight='normal', stretch='normal')
+annot_font = fm.FontProperties(family=font_family, style='normal', size=12, weight='normal', stretch='normal')
 
-# function to save plots to disk
-def save_fig(plt, filename='image', dpi=96, bbox_inches='tight', pad=0.1):
-    plt.savefig('images/{}.png'.format(filename), dpi=dpi, bbox_inches=bbox_inches, pad_inches=pad)
 
-# function returns the result of logistic map: pop[t + 1] = pop[t] * rate * (1 - pop[t])
+def save_fig(filename='image', folder='images', dpi=96, bbox_inches='tight', pad=0.1):
+    """
+    Save the plot image as a file to disk.
+    
+    Arguments:
+    folder = folder in which to save the image file
+    filename = filename of image file to be saved
+    dpi = resolution at which to save the image
+    bbox_inches = tell matplotlib to figure out the tight bbox of the figure
+    pad = inches to pad around the figure
+    """
+    plt.savefig('{}/{}.png'.format(folder, filename), dpi=dpi, bbox_inches=bbox_inches, pad_inches=pad)
+
+    
+def save_and_show(fig, ax, save, show, filename='image'):
+    """
+    Consistently handle plot completion by saving then either displaying or returning the figure.
+    Return fig, ax if show=False, else returns None.
+    
+    Arguments:
+    fig = the matplotlib figure for the plot
+    ax = the matplotlib axis for the plot
+    filename = filename for the image file to be saved to disk, if applicable
+    save = whether to save the image to disk, or not
+    show = whether to display the image or instead just return the figure and axis
+    """
+    if save:  
+        save_fig(filename)
+        
+    if show:
+        plt.show()   
+    else:
+        return fig, ax
+    
+
 def logistic_map(pop, rate):
+    """
+    Define the equation for the logistic map.
+    Return the scalar result of logistic map: pop[t + 1] = pop[t] * rate * (1 - pop[t])
+    
+    Arguments:
+    pop = current population value at time t
+    rate = growth rate parameter values
+    """
     return pop * rate * (1 - pop)
+    
     
 def logistic_model(num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_discard=0, initial_pop=0.5):
     """
-    returns a dataframe with columns for each growth rate, row labels for each time step, and values computed by logistic map
+    Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the function.
     
+    Arguments:
     num_gens = number of iterations to run the model
     rate_min = the first growth rate for the model, between 0 and 4
     rate_max = the last growth rate for the model, between 0 and 4
@@ -41,7 +83,7 @@ def logistic_model(num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_disca
     pops = []
     rates = np.linspace(rate_min, rate_max, num_rates)
     
-    # for each rate, run the logistic map repeatedly, starting at the initial_pop
+    # for each rate, run the function repeatedly, starting at the initial_pop
     for rate in rates:
         pop = initial_pop
         
@@ -58,18 +100,20 @@ def logistic_model(num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_disca
     df = pd.DataFrame(data=pops, columns=['rate', 'pop'])
     df.index = pd.MultiIndex.from_arrays([num_rates * range(num_gens), df['rate'].values])
     return df.drop(labels='rate', axis=1).unstack()['pop']
+
     
 def get_bifurcation_plot_points(pops):
     """
-    convert a dataframe of values from the logistic model into a set of xy points that you can plot as a bifurcation diagram
+    Convert a dataframe of values from the model into a set of xy points that you can plot as a bifurcation diagram.
     
+    Arguments:
     pops = population data output from the model
     """
     
     # create a new dataframe to contain our xy points
     points = pd.DataFrame(columns=['x', 'y'])
     
-    # for each column in the logistic populations dataframe
+    # for each column in the populations dataframe
     for rate in pops.columns:
         # append the growth rate as the x column and all the population values as the y column
         points = points.append(pd.DataFrame({'x':rate, 'y':pops[rate]}))
@@ -77,11 +121,15 @@ def get_bifurcation_plot_points(pops):
     # reset the index and drop the old index before returning the xy point data
     points = points.reset_index().drop(labels='index', axis=1)
     return points
+
     
-def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, height=6, width=10, filename='image'):
+def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, height=6, width=10,
+                     title='Logistic Map Bifurcation Diagram', xlabel='Growth Rate', ylabel='Population', 
+                     color='#003399', filename='', save=True, show=True):
     """
-    plot the results of the logistic model as a bifurcation diagram
+    Plot the results of the model as a bifurcation diagram.
     
+    Arguments:
     pops = population data output from the model
     xmin = minimum value on the x axis
     xmax = maximum value on the x axis
@@ -89,39 +137,42 @@ def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, height=6, width=10, f
     ymax = maximum value on the y axis
     height = the height of the figure to plot, in inches
     width = the width of the figure to plot, in inches
+    title = title of the plot
+    xlabel = label of the x axis
+    ylabel = label of the y axis
+    color = color of the points in the scatter plot
+    filename = name of image file to be saved, if applicable
+    save = whether to save the image to disk or not
+    show = whether to display the image on screen or not
     """
     # create a new matplotlib figure and axis and set its size
-    fig, ax = plt.subplots()
-    fig.set_size_inches(width, height)
+    fig, ax = plt.subplots(figsize=[width, height])
     
     # plot the xy data
     points = get_bifurcation_plot_points(pops)
-    bifurcation_scatter = ax.scatter(points['x'], points['y'], c='#003399', edgecolor='None', alpha=1, s=1)
+    bifurcation_scatter = ax.scatter(points['x'], points['y'], c=color, edgecolor='None', alpha=1, s=1)
     
     # set x and y limits, title, and x and y labels
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
-    ax.set_title('Logistic Map Bifurcation Diagram', fontproperties=title_font)
-    ax.set_xlabel('Growth Rate', fontproperties=label_font)
-    ax.set_ylabel('Population', fontproperties=label_font)
+    ax.set_title(title, fontproperties=title_font)
+    ax.set_xlabel(xlabel, fontproperties=label_font)
+    ax.set_ylabel(ylabel, fontproperties=label_font)
     
-    save_fig(plt, filename)
-    plt.show()
+    return save_and_show(fig, ax, save, show, filename)
 
 
-def get_colors(color_request, length=1, color_reverse=False, default_color='#003399'):
+def get_phase_colors(color_request, length=1, color_reverse=False, default_color='#003399'):
     """
-    return a list of colors based on a request. the request could be a list, string color name,
-    or string colormap name.
+    Return a list of colors based on a request that could be a list, string color name, or string colormap name.
     
+    Arguments:
     color_request = what color the caller wants. could be a list, string color name, or string colormap name
     length = how many total colors to return in the list
     color_reverse = reverse the returned list of colors if True
     default_color = if the list is shorter than the specified length, pad it out with default_color
     """
-    
     color_list = []
-    
     if isinstance(color_request, list):
         # if they passed a list, then just use it
         color_list = color_request
@@ -137,8 +188,7 @@ def get_colors(color_request, length=1, color_reverse=False, default_color='#003
             color_map = cm.get_cmap(color_request)
             color_list = color_map([x/float(length) for x in range(length)]).tolist()
             
-    # make sure list is same length as specified in length argument - if not, pad it out with default_color
-    # that way, each scatterplot gets a color
+    # make sure list is same length as specified in length argument - if not, pad it out with default_color, that way, each scatterplot gets a color
     color_list = color_list + [default_color for n in range(length-len(color_list))] if len(color_list) < length else color_list
     
     # if the color_reverse=True, reverse the list of colors before returning it
@@ -150,8 +200,9 @@ def get_colors(color_request, length=1, color_reverse=False, default_color='#003
     
 def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
     """
-    convert a dataframe of values from the logistic model into a set of xy(z) points to plot
+    Convert a dataframe of values from the model into a set of xy(z) points to plot.
     
+    Arguments:
     pops = population data output from the model
     discard_gens = number of rows to discard before keeping points to plot
     dimensions = 2 or 3, if we want points for a 2-D or 3-D plot: (t, t+1) vs (t, t+1, t+2)
@@ -168,7 +219,7 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
     points = []
     point_columns = ['name', 'x', 'y', 'z']
     
-    # for each column in the logistic populations dataframe, where the label is the 'name' of the model run
+    # for each column in the populations dataframe, where the label is the 'name' of the model run
     for name in pops.columns:
         
         # for each row in the column
@@ -192,13 +243,15 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
     df = df.drop(labels='name', axis=1)
     return df
     
+    
 def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=0, ymax=1,
                   title='', xlabel='Population (t)', ylabel='Population (t + 1)',
-                  marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, filename=''):
+                  marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
+                  filename='', save=True, show=True):
     """
-    draws a 2-D Poincare Plot for one or more time series by plotting the value at time t on the x-axis
-    and the value at t+1 on the y-axis
+    Draw a 2D phase diagram for one or more time series by plotting the value at time t on the x-axis and the value at t+1 on the y-axis.
     
+    Arguments:
     pops = population data output from the model
     discard_gens = number of rows to discard before keeping points to plot
     height = the height of the figure to plot, in inches
@@ -214,8 +267,11 @@ def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=
     size = the size of the marker
     alpha = the opacity of the marker
     color = a color name, list of color names, or name of a colormap for the markers
-    color_reverse = just pass argument on to get_colors()
+    color_reverse = just pass argument on to get_phase_colors()
     legend = if we should display a legend or not
+    filename = name of image file to be saved, if applicable
+    save = whether to save the image to disk or not
+    show = whether to display the image on screen or not
     """
     
     # first get the xy points to plot
@@ -227,8 +283,7 @@ def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=
     names = np.unique(index)
     
     # create a new matplotlib figure and axis and set its size
-    fig, ax = plt.subplots()
-    fig.set_size_inches(width, height)
+    fig, ax = plt.subplots(figsize=[width, height])
     
     # set the plot title, x- and y-axis limits, and x- and y-axis labels
     ax.set_title(title, fontproperties=title_font)
@@ -238,7 +293,7 @@ def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=
     ax.set_ylabel(ylabel, fontproperties=label_font)
     
     # make sure we have a list of colors as long as the number of model runs
-    color_list = get_colors(color, len(names), color_reverse)
+    color_list = get_phase_colors(color, len(names), color_reverse)
         
     # plot the xy data for each run of the model that appears in the MultiIndex
     for n in range(len(names)):
@@ -251,8 +306,9 @@ def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=
     
     if filename == '':
         filename = title.replace(' ', '-').replace('=', '-').replace(',', '-').replace('.', '').replace('--', '-')
-    save_fig(plt, filename)
-    plt.show()
+    
+    return save_and_show(fig, ax, save, show, filename)
+    
     
 def phase_diagram_3d(pops, discard_gens=0, height=8, width=10, 
                      xmin=0, xmax=1, ymin=0, ymax=1, zmin=0, zmax=1,
@@ -261,9 +317,9 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
                      marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
                      legend_bbox_to_anchor=None, filename='', save=True, show=True):
     """
-    draws a 2-D Poincare Plot for one or more time series by plotting the value at time t on the x-axis,
-    the value at t+1 on the y-axis, and the value of t+2 on the z-axis
+    Draw a 3D phase diagram for one or more time series by plotting the value at time t on the x-axis, the value at t+1 on the y-axis, and the value of t+2 on the z-axis.
     
+    Arguments:
     pops = population data output from the model
     discard_gens = number of rows to discard before keeping points to plot
     height = the height of the figure to plot, in inches
@@ -286,9 +342,12 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
     size = the size of the marker
     alpha = the opacity of the marker
     color = a color name, list of color names, or name of a colormap for the markers
-    color_reverse = just pass argument on to get_colors()
+    color_reverse = just pass argument on to get_phase_colors()
     legend = if we should display a legend or not
     legend_bbox_to_anchor = amount to offset the legend from its natural position
+    filename = name of image file to be saved, if applicable
+    save = whether to save the image to disk or not
+    show = whether to display the image on screen or not
     """
     
     # first get the xyz points to plot
@@ -329,7 +388,7 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
         ax.tick_params(reset=True)
         
     # make sure we have a list of colors as long as the number of model runs
-    color_list = get_colors(color, len(names), color_reverse)
+    color_list = get_phase_colors(color, len(names), color_reverse)
     
     # plot the xyz data for each run of the model that appears in the MultiIndex
     for n in range(len(names)):
@@ -341,27 +400,27 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
     if legend:
         ax.legend(plots, names.tolist(), loc=1, frameon=True, framealpha=1, bbox_to_anchor=legend_bbox_to_anchor)
     
-    if save:
-        if filename == '':
-            filename = title.replace(' ', '-').replace('=', '-').replace(',', '-').replace('.', '').replace('--', '-')
-        save_fig(plt, filename)
-        
-    if show:
-        plt.show()
-    else:
-        return fig, ax
+    if filename == '':
+        filename = title.replace(' ', '-').replace('=', '-').replace(',', '-').replace('.', '').replace('--', '-')
+    
+    return save_and_show(fig, ax, save, show, filename)
     
 
-# calculate the vertices of cobweb lines for a cobweb plot
 def get_cobweb_points(r, x=0.5, n=100):
     """
-    To calculate vertices for a cobweb plot
+    Calculate the vertices of cobweb lines for a cobweb plot. 
+    Steps in the calculation:
       1. Let x = 0.5
       2. Start on the x-axis at the point (x, 0)
       3. Draw a vertical line to the red function curve: this point has the coordinates (x, f(x))
       4. Draw a horizontal line from this point to the gray diagonal line: this point has the coordinates (f(x), f(x))
       5. Draw a vertical line from this point to the red function curve: this point has the coordinates (f(x), f(f(x)))
       6. Repeat steps 4 and 5 recursively one hundred times
+    
+    Arguments:    
+    r = growth rate parameter value to pass to the map
+    x = starting population value
+    n = number of iterations to run
     """
     cobweb_points = [(x, 0)]
     for _ in range(n):
@@ -373,19 +432,37 @@ def get_cobweb_points(r, x=0.5, n=100):
         x = y1
     return zip(*cobweb_points)
     
-# calculate logistic map results for n population values evenly spaced between 0 and 1
+    
 def get_function_points(r, n=1000):
+    """
+    Calculate function results for n population values evenly spaced between 0 and 1.
+    
+    Arguments:
+    r = growth rate parameter value to pass to the map
+    n = number of iterations to run
+    """
     x_vals = np.linspace(0, 1, n)
     y_vals = [logistic_map(x, r) for x in x_vals]
     return x_vals, y_vals
     
-# calculate and draw a cobweb plot
-def cobweb_plot(r, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, filename='', title='', show=True):
+    
+def cobweb_plot(r, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='', show=True, save=True):
     """
-    To draw the plot:
-    Run the logistic map once each for 1000 population values evenly spaced between 0 and 1. 
-    This gives us the results of the logistic equation (y values) across the entire range of 
+    Draw a cobweb plot. 
+    
+    Run the map once each for 1000 population values evenly spaced between 0 and 1. 
+    This gives us the results of the equation (y values) across the entire range of 
     possible population values (x values). The gray diagonal line is just a plot of y=x.
+    
+    Arguments:
+    r = growth rate parameter value to pass to the map
+    function_n = number of iterations of the function to run
+    cobweb_n = number of iterations of the cobweb line to run
+    num_discard = how many initial iterations of the cobweb line to throw away
+    title = title of the plot
+    filename = name of image file to be saved, if applicable
+    save = whether to save the image to disk or not
+    show = whether to display the image on screen or not
     """
     func_x_vals, func_y_vals = get_function_points(r=r, n=function_n)
     cobweb_x_vals, cobweb_y_vals = get_cobweb_points(r=r, x=cobweb_x, n=cobweb_n)
@@ -405,6 +482,9 @@ def cobweb_plot(r, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, f
     
     if filename == '':
         filename = 'cobweb-plot-r{}-x{}'.format(r, cobweb_x).replace('.', '')
-    save_fig(plt, filename)
-    if show:
-        plt.show()   
+    
+    return save_and_show(fig, ax, save, show, filename)
+    
+    
+    
+    
