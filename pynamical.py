@@ -68,6 +68,14 @@ def logistic_map(pop, rate):
     return pop * rate * (1 - pop)
     
     
+def cubic_map(pop, rate):
+    return rate * pop ** 3 + pop * (1 - rate)
+    
+    
+def singer_map(pop, rate):
+    return rate * (7.86 * pop - 23.31 * pop ** 2 + 28.75 * pop ** 3 - 13.3 * pop ** 4)
+
+    
 def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_discard=0, initial_pop=0.5):
     """
     Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the model.
