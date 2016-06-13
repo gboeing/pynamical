@@ -68,11 +68,12 @@ def logistic_map(pop, rate):
     return pop * rate * (1 - pop)
     
     
-def logistic_model(num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_discard=0, initial_pop=0.5):
+def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_discard=0, initial_pop=0.5):
     """
-    Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the function.
+    Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the model.
     
     Arguments:
+    model = function defining an iterated map to simulate; default is the logistic map
     num_gens = number of iterations to run the model
     rate_min = the first growth rate for the model, between 0 and 4
     rate_max = the last growth rate for the model, between 0 and 4
@@ -89,12 +90,12 @@ def logistic_model(num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_disca
         
         # first run it num_discard times and ignore the results
         for _ in range(num_discard):
-            pop = logistic_map(pop, rate)
+            pop = model(pop, rate)
         
         # now that those gens are discarded, run it num_gens times and keep the results
         for _ in range(num_gens):
             pops.append([rate, pop])
-            pop = logistic_map(pop, rate)
+            pop = model(pop, rate)
     
     # return a dataframe with one column for each growth rate and one row for each timestep (aka generation)
     df = pd.DataFrame(data=pops, columns=['rate', 'pop'])
@@ -406,7 +407,7 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
     return save_and_show(fig, ax, save, show, filename)
     
 
-def get_cobweb_points(r, x=0.5, n=100):
+def get_cobweb_points(model=logistic_map, r=0, x=0.5, n=100):
     """
     Calculate the vertices of cobweb lines for a cobweb plot. 
     Steps in the calculation:
@@ -418,31 +419,35 @@ def get_cobweb_points(r, x=0.5, n=100):
       6. Repeat steps 4 and 5 recursively one hundred times
     
     Arguments:    
+    model = function defining an iterated map to simulate; default is the logistic map
     r = growth rate parameter value to pass to the map
     x = starting population value
     n = number of iterations to run
     """
     cobweb_points = [(x, 0)]
     for _ in range(n):
-        y1 = logistic_map(x, r)
+        y1 = model(x, r)
         cobweb_points.append((x, y1))
         cobweb_points.append((y1, y1))
-        y2 = logistic_map(y1, r)
+        y2 = model(y1, r)
         cobweb_points.append((y1, y2))
         x = y1
     return zip(*cobweb_points)
     
     
-def get_function_points(r, n=1000):
+def get_function_points(model=logistic_map, r=0, n=1000, start=0, end=1):
     """
-    Calculate function results for n population values evenly spaced between 0 and 1.
+    Calculate model results for n population values evenly spaced between start and end values.
     
     Arguments:
-    r = growth rate parameter value to pass to the map
+    model = function defining an iterated map to simulate; default is the logistic map
+    r = growth rate parameter value to pass to the model
     n = number of iterations to run
+    start = lower limit of the function range
+    end = upper limit of the function range
     """
-    x_vals = np.linspace(0, 1, n)
-    y_vals = [logistic_map(x, r) for x in x_vals]
+    x_vals = np.linspace(start, end, n)
+    y_vals = [model(x, r) for x in x_vals]
     return x_vals, y_vals
     
     
