@@ -1,7 +1,8 @@
 # pynamical
 
-### pynamical.py is a Python module for modeling and visualizing discrete nonlinear dynamical systems. It uses pandas and numpy for 
-extremely fast simulation, and matplotlib for beautiful visualizations to explore system behavior.
+### pynamical.py is a Python module for modeling and visualizing discrete nonlinear dynamical systems. 
+
+It uses pandas and numpy for extremely fast simulation, and matplotlib for beautiful visualizations to explore system behavior.
 
 #### For a visual demonstration, see the IPython notebooks in this repo:
   1. [Pynamical: the logistic model and bifurcation diagrams](pynamical-demo-logistic-model.ipynb)
