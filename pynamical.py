@@ -107,7 +107,7 @@ def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rate
     
     # return a dataframe with one column for each growth rate and one row for each timestep (aka generation)
     df = pd.DataFrame(data=pops, columns=['rate', 'pop'])
-    df.index = pd.MultiIndex.from_arrays([num_rates * range(num_gens), df['rate'].values])
+    df.index = pd.MultiIndex.from_arrays([num_rates * list(range(num_gens)), df['rate'].values])
     return df.drop(labels='rate', axis=1).unstack()['pop']
 
     
@@ -186,7 +186,7 @@ def get_phase_colors(color_request, length=1, color_reverse=False, default_color
         # if they passed a list, then just use it
         color_list = color_request
         
-    elif isinstance(color_request, basestring):
+    elif isinstance(color_request, str):
         # if they passed a string, it could be a color name or a colormap name
         if len(color_request) == 1 or color_request.startswith('#'):
             # if it's only 1 character long or starts with a #, then it's a color name or hex code
@@ -248,7 +248,7 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
     # convert the list of points to a MultiIndex DataFrame 
     # with a level in the index called 'name' to represent each model run
     df = pd.DataFrame(points, columns=point_columns[0:dimensions+1])
-    df.index = pd.MultiIndex.from_tuples(zip(df['name'], df.index), names=['name', ''])
+    df.index = pd.MultiIndex.from_tuples(list(zip(df['name'], df.index)), names=['name', ''])
     df = df.drop(labels='name', axis=1)
     return df
     
