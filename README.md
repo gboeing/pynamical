@@ -4,6 +4,8 @@
 
 It uses pandas and numpy for extremely fast simulation, and matplotlib for beautiful visualizations to explore system behavior.
 
+You can download/cite the [paper here](http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)
+
 #### For a visual demonstration, see the IPython notebooks in this repo:
   1. [Pynamical: the logistic model and bifurcation diagrams](pynamical-demo-logistic-model.ipynb)
   1. [Pynamical: 2D and 3D phase diagrams](pynamical-demo-phase-diagrams.ipynb)
