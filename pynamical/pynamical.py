@@ -4,13 +4,13 @@
 # Web: http://geoffboeing.com/
 # Code repo: https://github.com/gboeing/pynamical
 # Demonstration: http://geoffboeing.com/2015/03/chaos-theory-logistic-map/
-# Description: Pynamical is a Python module for modeling and visualizing discrete nonlinear dynamical systems
-# Dependencies: pandas, numpy, matplotlib
+# Description: Model, simulate, and visualize discrete nonlinear dynamical systems and chaos
 #################################################################################################################
 
 import pandas as pd, numpy as np
 import matplotlib.pyplot as plt, matplotlib.cm as cm, matplotlib.font_manager as fm
 from mpl_toolkits.mplot3d import Axes3D
+from numba import jit
 
 
 # define the fonts to use for plot titles, labels, ticks, and annotations
@@ -56,6 +56,7 @@ def save_and_show(fig, ax, save, show, filename='image'):
         return fig, ax
     
 
+@jit(cache=True, nopython=True)
 def logistic_map(pop, rate):
     """
     Define the equation for the logistic map.
@@ -67,21 +68,43 @@ def logistic_map(pop, rate):
     """
     return pop * rate * (1 - pop)
     
-    
+
+@jit(cache=True, nopython=True)    
 def cubic_map(pop, rate):
     return rate * pop ** 3 + pop * (1 - rate)
     
-    
+
+@jit(cache=True, nopython=True)    
 def singer_map(pop, rate):
     return rate * (7.86 * pop - 23.31 * pop ** 2 + 28.75 * pop ** 3 - 13.3 * pop ** 4)
 
     
-def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_discard=0, initial_pop=0.5):
+def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rates=8, num_discard=0, initial_pop=0.5, jit=True):
     """
     Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the model.
     
     Arguments:
     model = function defining an iterated map to simulate; default is the logistic map
+    num_gens = number of iterations to run the model
+    rate_min = the first growth rate for the model, between 0 and 4
+    rate_max = the last growth rate for the model, between 0 and 4
+    num_rates = how many growth rates between min and max to run the model on
+    num_discard = number of generations to discard before keeping population values
+    initial_pop = starting population when you run the model, between 0 and 1
+    jit = if True, use jit compiled simulator function to speed up simulation, if false, use uncompiled simulator function
+    """
+    if jit:
+        return simulate_jit(model=model, num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, num_rates=num_rates, num_discard=num_discard, initial_pop=initial_pop)
+    else:
+        return simulate_no_compile(model=model, num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, num_rates=num_rates, num_discard=num_discard, initial_pop=initial_pop)
+    
+    
+def simulate_no_compile(model, num_gens, rate_min, rate_max, num_rates, num_discard, initial_pop):
+    """
+    Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the model.
+    
+    Arguments:
+    model = function defining an iterated map to simulate
     num_gens = number of iterations to run the model
     rate_min = the first growth rate for the model, between 0 and 4
     rate_max = the last growth rate for the model, between 0 and 4
@@ -110,6 +133,75 @@ def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rate
     df.index = pd.MultiIndex.from_arrays([num_rates * list(range(num_gens)), df['rate'].values])
     return df.drop(labels='rate', axis=1).unstack()['pop']
 
+    
+def simulate_jit(model, num_gens, rate_min, rate_max, num_rates, num_discard, initial_pop):
+    """
+    Return a dataframe with columns for each growth rate, row labels for each time step, and values computed by the model.
+    You can't pass a jitted function to a jitted function unless you turn off 'nopython' mode (which makes it slow)
+    In other words, you can't pass different model functions directly to the simulate function. Instead, use a closure:
+    The make_jit_simulator function returns a jitted simulator function that receives the jitted model function,
+    without it being an argument passed to the simulator function, because of the closure local scope
+    
+    Arguments:
+    model = function defining an iterated map to simulate
+    num_gens = number of iterations to run the model
+    rate_min = the first growth rate for the model, between 0 and 4
+    rate_max = the last growth rate for the model, between 0 and 4
+    num_rates = how many growth rates between min and max to run the model on
+    num_discard = number of generations to discard before keeping population values
+    initial_pop = starting population when you run the model, between 0 and 1
+    """
+    # make the jitted simulator
+    jit_simulator = make_jit_simulator(model=model, num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, 
+                                       num_rates=num_rates, num_discard=num_discard, initial_pop=initial_pop)
+    
+    # run the jit_simulator to create the pops to pass to the dataframe
+    pops = jit_simulator()
+    
+    # return a dataframe with one column for each growth rate and one row for each timestep (aka generation)
+    df = pd.DataFrame(data=pops, columns=['rate', 'pop'])
+    df.index = pd.MultiIndex.from_arrays([num_rates * list(range(num_gens)), df['rate'].values])
+    return df.drop(labels='rate', axis=1).unstack()['pop']
+    
+    
+def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_discard, initial_pop):
+    """
+    Return a jitted simulator function that receives the jitted model function, without it being an argument passed to the simulator function, because of the closure local scope.
+    
+    Arguments:
+    model = function defining an iterated map to simulate
+    num_gens = number of iterations to run the model
+    rate_min = the first growth rate for the model, between 0 and 4
+    rate_max = the last growth rate for the model, between 0 and 4
+    num_rates = how many growth rates between min and max to run the model on
+    num_discard = number of generations to discard before keeping population values
+    initial_pop = starting population when you run the model, between 0 and 1
+    """
+    @jit(cache=True, nopython=True)
+    def jit_simulator(num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, num_rates=num_rates, 
+                      num_discard=num_discard, initial_pop=initial_pop):
+        
+        pops = np.empty(shape=(num_gens*num_rates, 2), dtype=np.float64)
+        rates = np.linspace(rate_min, rate_max, num_rates)
+
+        # for each rate, run the function repeatedly, starting at the initial_pop
+        for rate_num, rate in zip(range(len(rates)), rates):
+            pop = initial_pop
+
+            # first run it num_discard times and ignore the results
+            for _ in range(num_discard):
+                pop = model(pop, rate)
+
+            # now that those gens are discarded, run it num_gens times and keep the results
+            for gen_num in range(num_gens):
+                row_num = gen_num + num_gens * rate_num
+                pops[row_num] = [rate, pop]
+                pop = model(pop, rate)
+        
+        return pops
+    
+    return jit_simulator
+    
     
 def get_bifurcation_plot_points(pops):
     """
