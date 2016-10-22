@@ -10,7 +10,7 @@ You can read and cite the [journal article about it, here](http://geoffboeing.co
 
 `pip install pynamical`
 
-## Visual demonstrations:
+## Visual demos/tutorial:
   1. [Pynamical: the logistic model and bifurcation diagrams](examples/pynamical-demo-logistic-model.ipynb)
   1. [Pynamical: 2D and 3D phase diagrams](examples/pynamical-demo-phase-diagrams.ipynb)
   1. [Pynamical: static and animated cobweb plots](examples/pynamical-demo-cobweb-plots.ipynb)
