@@ -5,6 +5,30 @@
 # Code repo: https://github.com/gboeing/pynamical
 # Demonstration: http://geoffboeing.com/2015/03/chaos-theory-logistic-map/
 # Description: Model, simulate, and visualize discrete nonlinear dynamical systems and chaos
+#
+#
+# License:
+# The MIT License (MIT)
+#
+# Copyright (c) 2016 Geoff Boeing http://geoffboeing.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 #################################################################################################################
 
 import pandas as pd, numpy as np
@@ -13,29 +37,28 @@ from mpl_toolkits.mplot3d import Axes3D
 from numba import jit
 
 
-# define the fonts to use for plot titles, labels, ticks, and annotations
-font_family = 'Myriad Pro'
-title_font = fm.FontProperties(family=font_family, style='normal', size=20, weight='normal', stretch='normal')
-label_font = fm.FontProperties(family=font_family, style='normal', size=16, weight='normal', stretch='normal')
-ticks_font = fm.FontProperties(family=font_family, style='normal', size=12, weight='normal', stretch='normal')
-annot_font = fm.FontProperties(family=font_family, style='normal', size=12, weight='normal', stretch='normal')
+# define the fonts to use for plot titles and labels
+_font_family = ['Helvetica', 'Arial', 'sans-serif']
+title_font = fm.FontProperties(family=_font_family, style='normal', size=20, weight='normal', stretch='normal')
+label_font = fm.FontProperties(family=_font_family, style='normal', size=16, weight='normal', stretch='normal')
 
 
-def save_fig(filename='image', folder='images', dpi=96, bbox_inches='tight', pad=0.1):
+def save_fig(filename='image', folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
-    Save the plot image as a file to disk.
+    Save the current figure as a file to disk.
     
     Arguments:
-    folder = folder in which to save the image file
     filename = filename of image file to be saved
+    folder = folder in which to save the image file
     dpi = resolution at which to save the image
     bbox_inches = tell matplotlib to figure out the tight bbox of the figure
     pad = inches to pad around the figure
     """
+    
     plt.savefig('{}/{}.png'.format(folder, filename), dpi=dpi, bbox_inches=bbox_inches, pad_inches=pad)
 
     
-def save_and_show(fig, ax, save, show, filename='image'):
+def save_and_show(fig, ax, save, show, filename='image', folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Consistently handle plot completion by saving then either displaying or returning the figure.
     Return fig, ax if show=False, else returns None.
@@ -43,12 +66,17 @@ def save_and_show(fig, ax, save, show, filename='image'):
     Arguments:
     fig = the matplotlib figure for the plot
     ax = the matplotlib axis for the plot
-    filename = filename for the image file to be saved to disk, if applicable
     save = whether to save the image to disk, or not
     show = whether to display the image or instead just return the figure and axis
+    filename = filename of image file to be saved
+    folder = folder in which to save the image file
+    dpi = resolution at which to save the image
+    bbox_inches = tell matplotlib to figure out the tight bbox of the figure
+    pad = inches to pad around the figure
     """
+    
     if save:  
-        save_fig(filename)
+        save_fig(filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
         
     if show:
         plt.show()   
@@ -66,16 +94,33 @@ def logistic_map(pop, rate):
     pop = current population value at time t
     rate = growth rate parameter values
     """
+    
     return pop * rate * (1 - pop)
     
 
 @jit(cache=True, nopython=True)    
 def cubic_map(pop, rate):
+    """
+    Define the equation for the cubic map.
+    
+    Arguments:
+    pop = current population value at time t
+    rate = growth rate parameter values
+    """
+    
     return rate * pop ** 3 + pop * (1 - rate)
     
 
 @jit(cache=True, nopython=True)    
 def singer_map(pop, rate):
+    """
+    Define the equation for the singer map.
+    
+    Arguments:
+    pop = current population value at time t
+    rate = growth rate parameter values
+    """
+    
     return rate * (7.86 * pop - 23.31 * pop ** 2 + 28.75 * pop ** 3 - 13.3 * pop ** 4)
 
     
@@ -93,6 +138,7 @@ def simulate(model=logistic_map, num_gens=50, rate_min=0.5, rate_max=4, num_rate
     initial_pop = starting population when you run the model, between 0 and 1
     jit = if True, use jit compiled simulator function to speed up simulation, if false, use uncompiled simulator function
     """
+    
     if jit:
         return simulate_jit(model=model, num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, num_rates=num_rates, num_discard=num_discard, initial_pop=initial_pop)
     else:
@@ -112,6 +158,7 @@ def simulate_no_compile(model, num_gens, rate_min, rate_max, num_rates, num_disc
     num_discard = number of generations to discard before keeping population values
     initial_pop = starting population when you run the model, between 0 and 1
     """
+    
     pops = []
     rates = np.linspace(rate_min, rate_max, num_rates)
     
@@ -151,6 +198,7 @@ def simulate_jit(model, num_gens, rate_min, rate_max, num_rates, num_discard, in
     num_discard = number of generations to discard before keeping population values
     initial_pop = starting population when you run the model, between 0 and 1
     """
+    
     # make the jitted simulator
     jit_simulator = make_jit_simulator(model=model, num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, 
                                        num_rates=num_rates, num_discard=num_discard, initial_pop=initial_pop)
@@ -177,6 +225,7 @@ def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_disca
     num_discard = number of generations to discard before keeping population values
     initial_pop = starting population when you run the model, between 0 and 1
     """
+    
     @jit(cache=True, nopython=True)
     def jit_simulator(num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, num_rates=num_rates, 
                       num_discard=num_discard, initial_pop=initial_pop):
@@ -225,8 +274,9 @@ def get_bifurcation_plot_points(pops):
 
     
 def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, height=6, width=10,
-                     title='Logistic Map Bifurcation Diagram', xlabel='Growth Rate', ylabel='Population', 
-                     color='#003399', filename='', save=True, show=True):
+                     title='Bifurcation Diagram', xlabel='Growth Rate', ylabel='Population', 
+                     color='#003399', filename='', save=True, show=True, title_font=title_font, label_font=label_font,
+                     folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Plot the results of the model as a bifurcation diagram.
     
@@ -245,7 +295,14 @@ def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, height=6, width=10,
     filename = name of image file to be saved, if applicable
     save = whether to save the image to disk or not
     show = whether to display the image on screen or not
+    title_font = matplotlib.font_manager font properties for figure title
+    label_font = matplotlib.font_manager font properties for axis labels
+    folder = folder in which to save the image file
+    dpi = resolution at which to save the image
+    bbox_inches = tell matplotlib to figure out the tight bbox of the figure
+    pad = inches to pad around the figure
     """
+    
     # create a new matplotlib figure and axis and set its size
     fig, ax = plt.subplots(figsize=[width, height])
     
@@ -260,7 +317,7 @@ def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, height=6, width=10,
     ax.set_xlabel(xlabel, fontproperties=label_font)
     ax.set_ylabel(ylabel, fontproperties=label_font)
     
-    return save_and_show(fig, ax, save, show, filename)
+    return save_and_show(fig=fig, ax=ax, save=save, show=show, filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
 
 
 def get_phase_colors(color_request, length=1, color_reverse=False, default_color='#003399'):
@@ -273,6 +330,7 @@ def get_phase_colors(color_request, length=1, color_reverse=False, default_color
     color_reverse = reverse the returned list of colors if True
     default_color = if the list is shorter than the specified length, pad it out with default_color
     """
+    
     color_list = []
     if isinstance(color_request, list):
         # if they passed a list, then just use it
@@ -348,7 +406,8 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
 def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=0, ymax=1,
                   title='', xlabel='Population (t)', ylabel='Population (t + 1)',
                   marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
-                  filename='', save=True, show=True):
+                  filename='', save=True, show=True, title_font=title_font, label_font=label_font,
+                  folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a 2D phase diagram for one or more time series by plotting the value at time t on the x-axis and the value at t+1 on the y-axis.
     
@@ -373,6 +432,12 @@ def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=
     filename = name of image file to be saved, if applicable
     save = whether to save the image to disk or not
     show = whether to display the image on screen or not
+    title_font = matplotlib.font_manager font properties for figure title
+    label_font = matplotlib.font_manager font properties for axis labels
+    folder = folder in which to save the image file
+    dpi = resolution at which to save the image
+    bbox_inches = tell matplotlib to figure out the tight bbox of the figure
+    pad = inches to pad around the figure
     """
     
     # first get the xy points to plot
@@ -408,7 +473,7 @@ def phase_diagram(pops, discard_gens=0, height=6, width=6, xmin=0, xmax=1, ymin=
     if filename == '':
         filename = title.replace(' ', '-').replace('=', '-').replace(',', '-').replace('.', '').replace('--', '-')
     
-    return save_and_show(fig, ax, save, show, filename)
+    return save_and_show(fig=fig, ax=ax, save=save, show=show, filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
     
     
 def phase_diagram_3d(pops, discard_gens=0, height=8, width=10, 
@@ -416,7 +481,8 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
                      remove_ticks=True, title='', elev=25, azim=240, dist=10,
                      xlabel='Population (t)', ylabel='Population (t + 1)', zlabel='Population (t + 2)',
                      marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
-                     legend_bbox_to_anchor=None, filename='', save=True, show=True):
+                     legend_bbox_to_anchor=None, filename='', save=True, show=True, title_font=title_font, label_font=label_font,
+                     folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a 3D phase diagram for one or more time series by plotting the value at time t on the x-axis, the value at t+1 on the y-axis, and the value of t+2 on the z-axis.
     
@@ -449,6 +515,12 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
     filename = name of image file to be saved, if applicable
     save = whether to save the image to disk or not
     show = whether to display the image on screen or not
+    title_font = matplotlib.font_manager font properties for figure title
+    label_font = matplotlib.font_manager font properties for axis labels
+    folder = folder in which to save the image file
+    dpi = resolution at which to save the image
+    bbox_inches = tell matplotlib to figure out the tight bbox of the figure
+    pad = inches to pad around the figure
     """
     
     # first get the xyz points to plot
@@ -504,10 +576,10 @@ def phase_diagram_3d(pops, discard_gens=0, height=8, width=10,
     if filename == '':
         filename = title.replace(' ', '-').replace('=', '-').replace(',', '-').replace('.', '').replace('--', '-')
     
-    return save_and_show(fig, ax, save, show, filename)
+    return save_and_show(fig=fig, ax=ax, save=save, show=show, filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
     
 
-def get_cobweb_points(model=logistic_map, r=0, x=0.5, n=100):
+def get_cobweb_points(model, r, x, n):
     """
     Calculate the vertices of cobweb lines for a cobweb plot. 
     Steps in the calculation:
@@ -519,11 +591,12 @@ def get_cobweb_points(model=logistic_map, r=0, x=0.5, n=100):
       6. Repeat steps 4 and 5 recursively one hundred times
     
     Arguments:    
-    model = function defining an iterated map to simulate; default is the logistic map
+    model = function defining an iterated map to simulate
     r = growth rate parameter value to pass to the map
     x = starting population value
     n = number of iterations to run
     """
+    
     cobweb_points = [(x, 0)]
     for _ in range(n):
         y1 = model(x, r)
@@ -535,23 +608,26 @@ def get_cobweb_points(model=logistic_map, r=0, x=0.5, n=100):
     return zip(*cobweb_points)
     
     
-def get_function_points(model=logistic_map, r=0, n=1000, start=0, end=1):
+def get_function_points(model, r, n, start, end):
     """
     Calculate model results for n population values evenly spaced between start and end values.
     
     Arguments:
-    model = function defining an iterated map to simulate; default is the logistic map
+    model = function defining an iterated map to simulate
     r = growth rate parameter value to pass to the model
     n = number of iterations to run
     start = lower limit of the function range
     end = upper limit of the function range
     """
+    
     x_vals = np.linspace(start, end, n)
     y_vals = [model(x, r) for x in x_vals]
     return x_vals, y_vals
     
     
-def cobweb_plot(r, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='', show=True, save=True):
+def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='', show=True, save=True,
+                start=0, end=1, figsize=(6,6), diagonal_linewidth=1.35, cobweb_linewidth=1, function_linewidth=1.5, title_font=title_font, label_font=label_font,
+                folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a cobweb plot. 
     
@@ -560,6 +636,7 @@ def cobweb_plot(r, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, t
     possible population values (x values). The gray diagonal line is just a plot of y=x.
     
     Arguments:
+    model = function defining an iterated map to simulate; default is the logistic map
     r = growth rate parameter value to pass to the map
     function_n = number of iterations of the function to run
     cobweb_n = number of iterations of the cobweb line to run
@@ -568,27 +645,40 @@ def cobweb_plot(r, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, t
     filename = name of image file to be saved, if applicable
     save = whether to save the image to disk or not
     show = whether to display the image on screen or not
+    start = lower limit of the function range
+    end = upper limit of the function range
+    figsize = width, length of figure
+    diagonal_linewidth = width of y=x line
+    cobweb_linewidth = width of cobweb line
+    function_linewidth = width of function line
+    title_font = matplotlib.font_manager font properties for figure title
+    label_font = matplotlib.font_manager font properties for axis labels
+    folder = folder in which to save the image file
+    dpi = resolution at which to save the image
+    bbox_inches = tell matplotlib to figure out the tight bbox of the figure
+    pad = inches to pad around the figure
     """
-    func_x_vals, func_y_vals = get_function_points(r=r, n=function_n)
-    cobweb_x_vals, cobweb_y_vals = get_cobweb_points(r=r, x=cobweb_x, n=cobweb_n)
+    
+    func_x_vals, func_y_vals = get_function_points(model=model, r=r, n=function_n, start=start, end=end)
+    cobweb_x_vals, cobweb_y_vals = get_cobweb_points(model=model, r=r, x=cobweb_x, n=cobweb_n)
     cobweb_x_vals = cobweb_x_vals[num_discard:]
     cobweb_y_vals = cobweb_y_vals[num_discard:]
     
-    fig, ax = plt.subplots(figsize=(6, 6))
-    diagonal_line = ax.plot((0,1), (0,1), color='gray', linewidth=1.35)
-    function_line = ax.scatter(func_x_vals, func_y_vals, color='#cc0000', edgecolor='None', s=1.5)
-    cobweb_line = ax.plot(cobweb_x_vals, cobweb_y_vals, color='#003399', linewidth=1)
+    fig, ax = plt.subplots(figsize=figsize)
+    diagonal_line = ax.plot((0,1), (0,1), color='gray', linewidth=diagonal_linewidth)
+    function_line = ax.scatter(func_x_vals, func_y_vals, color='#cc0000', edgecolor='None', s=function_linewidth)
+    cobweb_line = ax.plot(cobweb_x_vals, cobweb_y_vals, color='#003399', linewidth=cobweb_linewidth)
     
     ax.set_ylim((0, 1))
     ax.set_xlim((0, 1))
     if title == '':
-        title = 'Logistic Map Cobweb Plot, r={}'.format(r)
+        title = 'Cobweb Plot, r={}'.format(r)
     ax.set_title(title, fontproperties=title_font)
     
     if filename == '':
         filename = 'cobweb-plot-r{}-x{}'.format(r, cobweb_x).replace('.', '')
     
-    return save_and_show(fig, ax, save, show, filename)
+    return save_and_show(fig=fig, ax=ax, save=save, show=show, filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
     
     
     
