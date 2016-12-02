@@ -29,7 +29,7 @@
 # SOFTWARE.
 #################################################################################################################
 
-import pandas as pd, numpy as np
+import os, pandas as pd, numpy as np
 import matplotlib.pyplot as plt, matplotlib.cm as cm, matplotlib.font_manager as fm
 from mpl_toolkits.mplot3d import Axes3D
 from numba import jit
@@ -60,6 +60,8 @@ def save_fig(filename='image', folder='images', dpi=300, bbox_inches='tight', pa
     None
     """
     
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     plt.savefig('{}/{}.png'.format(folder, filename), dpi=dpi, bbox_inches=bbox_inches, pad_inches=pad)
 
     
@@ -344,7 +346,7 @@ def get_bifurcation_plot_points(pops):
     
 def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, figsize=(10,6),
                      title='Bifurcation Diagram', xlabel='Growth Rate', ylabel='Population', 
-                     color='#003399', filename='', save=True, show=True, title_font=title_font, label_font=label_font,
+                     color='#003399', filename='image', save=True, show=True, title_font=title_font, label_font=label_font,
                      folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Plot the results of the model as a bifurcation diagram.
@@ -495,7 +497,7 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
 def phase_diagram(pops, discard_gens=0, figsize=(6,6), xmin=0, xmax=1, ymin=0, ymax=1,
                   title='', xlabel='Population (t)', ylabel='Population (t + 1)',
                   marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
-                  filename='', save=True, show=True, title_font=title_font, label_font=label_font,
+                  filename='image', save=True, show=True, title_font=title_font, label_font=label_font,
                   folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a 2D phase diagram for one or more time series by plotting the value at time t on the x-axis and the value at t+1 on the y-axis.
@@ -575,7 +577,7 @@ def phase_diagram_3d(pops, discard_gens=0, figsize=(10,8), xmin=0, xmax=1, ymin=
                      remove_ticks=True, title='', elev=25, azim=240, dist=10,
                      xlabel='Population (t)', ylabel='Population (t + 1)', zlabel='Population (t + 2)',
                      marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
-                     legend_bbox_to_anchor=None, filename='', save=True, show=True, title_font=title_font, label_font=label_font,
+                     legend_bbox_to_anchor=None, filename='image', save=True, show=True, title_font=title_font, label_font=label_font,
                      folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a 3D phase diagram for one or more time series by plotting the value at time t on the x-axis, the value at t+1 on the y-axis, and the value of t+2 on the z-axis.
@@ -740,7 +742,7 @@ def get_function_points(model, r, n, start, end):
     
 
     
-def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='', show=True, save=True,
+def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='image', show=True, save=True,
                 start=0, end=1, figsize=(6,6), diagonal_linewidth=1.35, cobweb_linewidth=1, function_linewidth=1.5, title_font=title_font, label_font=label_font,
                 folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
