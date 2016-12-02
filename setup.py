@@ -1,6 +1,6 @@
 from setuptools import setup
 setup(name='pynamical',
-      version='0.1a1.dev0',
+      version='0.1',
       description='Model, simulate, and visualize discrete nonlinear dynamical systems',
       url='https://github.com/gboeing/pynamical',
       author='Geoff Boeing',
