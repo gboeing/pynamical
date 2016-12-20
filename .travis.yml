@@ -23,4 +23,4 @@ install:
   - pip show pynamical
 
 script:
-  - py.test
+  - py.test -v -rpPa
