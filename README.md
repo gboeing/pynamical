@@ -1,3 +1,6 @@
+[![PyPI version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
+[![Build Status](https://travis-ci.org/gboeing/pynamical.svg?branch=master)](https://travis-ci.org/gboeing/pynamical)
+
 # pynamical
 
 **Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical systems and chaos**
