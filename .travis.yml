@@ -1,16 +1,25 @@
 language: python
 
 python:
-  - '2.7'
-  - '3.4'
-  - '3.5'
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+before_install:
+  - apt-get update
+  - pip install --upgrade pip
+  - pip install --upgrade wheel
+  - wget http://bit.ly/miniconda -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes
+  - conda update --all
+  - conda info -a
   
 install:
-  - pip install --upgrade pip
-  - pip --version
-  - pip install --upgrade wheel
-  - wheel version
-  - pip install numpy==1.11.3 matplotlib==1.5.3 pandas==0.19.1 numba==0.29.0
+  - conda create -n TESTENV python=$TRAVIS_PYTHON_VERSION numpy matplotlib pandas numba
+  - source activate TESTENV
   - pip install .
 
 script: pytest
