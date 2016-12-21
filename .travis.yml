@@ -23,4 +23,5 @@ install:
   - pip show pynamical
 
 script:
-  - pytest
+  - pytest --verbose
+  
