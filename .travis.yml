@@ -17,10 +17,10 @@ before_install:
   - conda info -a
   
 install:
-  - conda create -n TESTENV python=$TRAVIS_PYTHON_VERSION numpy matplotlib pandas numba
+  - conda create -n TESTENV python=$TRAVIS_PYTHON_VERSION pytest numpy matplotlib pandas numba
   - source activate TESTENV
   - pip install .
   - pip show pynamical
 
 script:
-  - python ./tests/test_pynamical.py
+  - pytest
