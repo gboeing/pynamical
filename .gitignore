@@ -1,6 +1,7 @@
 examples/images/animation/*/*.png
 examples/images/cobweb-animate/*.png
-
+.temp
+run_tests.bat
 
 # Compiled source #
 ###################
