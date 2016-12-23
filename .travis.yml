@@ -19,12 +19,13 @@ before_install:
 install:
   - conda create -n TESTENV python=$TRAVIS_PYTHON_VERSION numpy matplotlib pandas numba
   - source activate TESTENV
-  - pip install pytest pytest-cov coverage coveralls
+  - pip install pytest coverage coveralls
   - pip install .
   - pip show pynamical
 
 script:
-  - pytest --verbose --cov pynamical --cov-report term-missing
+  - coverage run --source pynamical -m pytest --verbose
 
 after_success:
+  - coverage report -m
   - coveralls
