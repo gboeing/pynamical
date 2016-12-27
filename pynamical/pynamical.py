@@ -99,7 +99,7 @@ def save_and_show(fig, ax, save, show, filename='image', folder='images', dpi=30
     
     
 
-@jit(cache=True, nopython=True)
+@jit(cache=True, nopython=True) # pragma: no cover
 def logistic_map(pop, rate):
     """
     Define the equation for the logistic map.
@@ -119,7 +119,7 @@ def logistic_map(pop, rate):
     
     
 
-@jit(cache=True, nopython=True)    
+@jit(cache=True, nopython=True) # pragma: no cover 
 def cubic_map(pop, rate):
     """
     Define the equation for the cubic map.
@@ -139,7 +139,7 @@ def cubic_map(pop, rate):
 
     
     
-@jit(cache=True, nopython=True)    
+@jit(cache=True, nopython=True) # pragma: no cover
 def singer_map(pop, rate):
     """
     Define the equation for the singer map.
@@ -288,7 +288,7 @@ def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_disca
     jit_simulator: function
     """
     
-    @jit(cache=True, nopython=True)
+    @jit(cache=True, nopython=True) # pragma: no cover
     def jit_simulator(num_gens=num_gens, rate_min=rate_min, rate_max=rate_max, num_rates=num_rates, 
                       num_discard=num_discard, initial_pop=initial_pop):
         
