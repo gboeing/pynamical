@@ -1,4 +1,4 @@
-examples/images/animation/*/*.png
+examples/images/phase-animate/*/*.png
 examples/images/cobweb-animate/*.png
 .temp
 run_tests.bat
