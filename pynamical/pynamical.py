@@ -742,7 +742,7 @@ def get_function_points(model, r, n, start, end):
     
 
     
-def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='image', show=True, save=True,
+def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='', show=True, save=True,
                 start=0, end=1, figsize=(6,6), diagonal_linewidth=1.35, cobweb_linewidth=1, function_linewidth=1.5, title_font=title_font, label_font=label_font,
                 folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
