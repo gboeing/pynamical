@@ -16,6 +16,10 @@ You can read/cite the journal article about pynamical: Boeing, G. 2016. "[Visual
 pip install pynamical
 ```
 
+## Documentation:
+
+Available on [readthedocs](https://pynamical.readthedocs.io/en/latest/).
+
 ## Demos/tutorial:
   1. [Pynamical: quick overview](examples/pynamical-quick-overview.ipynb)
   1. [Pynamical: the logistic model and bifurcation diagrams](examples/pynamical-demo-logistic-model.ipynb)

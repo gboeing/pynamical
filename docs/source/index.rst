@@ -1,15 +1,16 @@
 .. pynamical documentation master file, created by
-   sphinx-quickstart on Tue Jan 31 10:21:12 2017.
+   sphinx-quickstart on Tue Jan 31 13:34:32 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-pynamical's documentation
-=========================
+pynamical documentation
+=======================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   modules
    pynamical
 
 pynamical is a Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical 
