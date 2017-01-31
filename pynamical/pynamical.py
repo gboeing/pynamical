@@ -35,12 +35,51 @@ from mpl_toolkits.mplot3d import Axes3D
 from numba import jit
 
 
-# define the fonts to use for plot titles and labels
-_font_family = ['Helvetica', 'Arial', 'sans-serif']
-title_font = fm.FontProperties(family=_font_family, style='normal', size=20, weight='normal', stretch='normal')
-label_font = fm.FontProperties(family=_font_family, style='normal', size=16, weight='normal', stretch='normal')
 
 
+def get_title_font(family='Helvetica', style='normal', size=20, weight='normal', stretch='normal'):
+    """
+    Define fonts to use for image titles.
+    
+    Arguments
+    ---------
+    family : string
+    style : string
+    size : numeric
+    weight : string
+    stretch : string
+    
+    Returns
+    -------
+    fp : matplotlib.font_manager.FontProperties
+    """
+    
+    if family=='Helvetica':
+        family = ['Helvetica', 'Arial', 'sans-serif']
+    fp = fm.FontProperties(family=family, style=style, size=size, weight=weight, stretch=stretch)
+    return fp
+
+def get_label_font(family='Helvetica', style='normal', size=16, weight='normal', stretch='normal'):
+    """
+    Define fonts to use for image axis labels.
+    
+    Arguments
+    ---------
+    family : string
+    style : string
+    size : numeric
+    weight : string
+    stretch : string
+    
+    Returns
+    -------
+    fp : matplotlib.font_manager.FontProperties
+    """
+    
+    if family=='Helvetica':
+        family = ['Helvetica', 'Arial', 'sans-serif']
+    fp = fm.FontProperties(family=family, style=style, size=size, weight=weight, stretch=stretch)
+    return fp
 
 
 def save_fig(filename='image', folder='images', dpi=300, bbox_inches='tight', pad=0.1):
@@ -346,7 +385,7 @@ def get_bifurcation_plot_points(pops):
     
 def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, figsize=(10,6),
                      title='Bifurcation Diagram', xlabel='Growth Rate', ylabel='Population', 
-                     color='#003399', filename='image', save=True, show=True, title_font=title_font, label_font=label_font,
+                     color='#003399', filename='image', save=True, show=True, title_font=None, label_font=None,
                      folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Plot the results of the model as a bifurcation diagram.
@@ -378,6 +417,12 @@ def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, figsize=(10,6),
     fig, ax: tuple (if show=False, otherwise returns None)
     """
     
+    if title_font is None:
+        title_font = get_title_font()
+        
+    if label_font is None:
+        label_font = get_label_font()
+    
     # create a new matplotlib figure and axis and set its size
     fig, ax = plt.subplots(figsize=figsize)
     
@@ -388,9 +433,9 @@ def bifurcation_plot(pops, xmin=0, xmax=4, ymin=0, ymax=1, figsize=(10,6),
     # set x and y limits, title, and x and y labels
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
-    ax.set_title(title, fontproperties=title_font)
-    ax.set_xlabel(xlabel, fontproperties=label_font)
-    ax.set_ylabel(ylabel, fontproperties=label_font)
+    ax.set_title(title, fontproperties=get_title_font())
+    ax.set_xlabel(xlabel, fontproperties=get_label_font())
+    ax.set_ylabel(ylabel, fontproperties=get_label_font())
     
     return save_and_show(fig=fig, ax=ax, save=save, show=show, filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
 
@@ -497,7 +542,7 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
 def phase_diagram(pops, discard_gens=0, figsize=(6,6), xmin=0, xmax=1, ymin=0, ymax=1,
                   title='', xlabel='Population (t)', ylabel='Population (t + 1)',
                   marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
-                  filename='image', save=True, show=True, title_font=title_font, label_font=label_font,
+                  filename='image', save=True, show=True, title_font=None, label_font=None,
                   folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a 2D phase diagram for one or more time series by plotting the value at time t on the x-axis and the value at t+1 on the y-axis.
@@ -535,6 +580,12 @@ def phase_diagram(pops, discard_gens=0, figsize=(6,6), xmin=0, xmax=1, ymin=0, y
     fig, ax: tuple (if show=False, otherwise returns None)
     """
     
+    if title_font is None:
+        title_font = get_title_font()
+        
+    if label_font is None:
+        label_font = get_label_font()
+        
     # first get the xy points to plot
     points = get_phase_diagram_points(pops, discard_gens, dimensions=2)
     plots = []
@@ -547,11 +598,11 @@ def phase_diagram(pops, discard_gens=0, figsize=(6,6), xmin=0, xmax=1, ymin=0, y
     fig, ax = plt.subplots(figsize=figsize)
     
     # set the plot title, x- and y-axis limits, and x- and y-axis labels
-    ax.set_title(title, fontproperties=title_font)
+    ax.set_title(title, fontproperties=get_title_font())
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
-    ax.set_xlabel(xlabel, fontproperties=label_font)
-    ax.set_ylabel(ylabel, fontproperties=label_font)
+    ax.set_xlabel(xlabel, fontproperties=get_label_font())
+    ax.set_ylabel(ylabel, fontproperties=get_label_font())
     
     # make sure we have a list of colors as long as the number of model runs
     color_list = get_phase_colors(color, len(names), color_reverse)
@@ -577,7 +628,7 @@ def phase_diagram_3d(pops, discard_gens=0, figsize=(10,8), xmin=0, xmax=1, ymin=
                      remove_ticks=True, title='', elev=25, azim=240, dist=10,
                      xlabel='Population (t)', ylabel='Population (t + 1)', zlabel='Population (t + 2)',
                      marker='.', size=5, alpha=0.7, color='#003399', color_reverse=False, legend=False, 
-                     legend_bbox_to_anchor=None, filename='image', save=True, show=True, title_font=title_font, label_font=label_font,
+                     legend_bbox_to_anchor=None, filename='image', save=True, show=True, title_font=None, label_font=None,
                      folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a 3D phase diagram for one or more time series by plotting the value at time t on the x-axis, the value at t+1 on the y-axis, and the value of t+2 on the z-axis.
@@ -623,6 +674,12 @@ def phase_diagram_3d(pops, discard_gens=0, figsize=(10,8), xmin=0, xmax=1, ymin=
     fig, ax: tuple (if show=False, otherwise returns None)
     """
     
+    if title_font is None:
+        title_font = get_title_font()
+        
+    if label_font is None:
+        label_font = get_label_font()
+        
     # first get the xyz points to plot
     points = get_phase_diagram_points(pops, discard_gens, dimensions=3)
     plots = []
@@ -644,13 +701,13 @@ def phase_diagram_3d(pops, discard_gens=0, figsize=(10,8), xmin=0, xmax=1, ymin=
     ax.dist = dist
     
     # set the plot title, axis limits, and axis labels
-    ax.set_title(title, fontproperties=title_font)
+    ax.set_title(title, fontproperties=get_title_font())
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
     ax.set_zlim(zmin, zmax)
-    ax.set_xlabel(xlabel, fontproperties=label_font)
-    ax.set_ylabel(ylabel, fontproperties=label_font)  
-    ax.set_zlabel(zlabel, fontproperties=label_font)
+    ax.set_xlabel(xlabel, fontproperties=get_label_font())
+    ax.set_ylabel(ylabel, fontproperties=get_label_font())  
+    ax.set_zlabel(zlabel, fontproperties=get_label_font())
     
     #remove all ticks if argument is True
     if remove_ticks:
@@ -743,7 +800,7 @@ def get_function_points(model, r, n, start, end):
 
     
 def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x=0.5, num_discard=0, title='', filename='', show=True, save=True,
-                start=0, end=1, figsize=(6,6), diagonal_linewidth=1.35, cobweb_linewidth=1, function_linewidth=1.5, title_font=title_font, label_font=label_font,
+                start=0, end=1, figsize=(6,6), diagonal_linewidth=1.35, cobweb_linewidth=1, function_linewidth=1.5, title_font=None, label_font=None,
                 folder='images', dpi=300, bbox_inches='tight', pad=0.1):
     """
     Draw a cobweb plot. 
@@ -781,6 +838,12 @@ def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x
     fig, ax: tuple (if show=False, otherwise returns None)
     """
     
+    if title_font is None:
+        title_font = get_title_font()
+        
+    if label_font is None:
+        label_font = get_label_font()
+        
     func_x_vals, func_y_vals = get_function_points(model=model, r=r, n=function_n, start=start, end=end)
     cobweb_x_vals, cobweb_y_vals = get_cobweb_points(model=model, r=r, x=cobweb_x, n=cobweb_n)
     cobweb_x_vals = cobweb_x_vals[num_discard:]
@@ -795,7 +858,7 @@ def cobweb_plot(model=logistic_map, r=0, function_n=1000, cobweb_n=100, cobweb_x
     ax.set_xlim((0, 1))
     if title == '':
         title = 'Cobweb Plot, r={}'.format(r)
-    ax.set_title(title, fontproperties=title_font)
+    ax.set_title(title, fontproperties=get_title_font())
     
     if filename == '':
         filename = 'cobweb-plot-r{}-x{}'.format(r, cobweb_x).replace('.', '')
