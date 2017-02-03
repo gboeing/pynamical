@@ -10,7 +10,6 @@ pynamical documentation
    :maxdepth: 2
    :caption: Contents:
 
-   modules
    pynamical
 
 pynamical is a Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical 
@@ -27,6 +26,7 @@ Installation
 
 Install pynamical by running:
 
+.. code-block:: shell
     pip install pynamical
     
 Examples
