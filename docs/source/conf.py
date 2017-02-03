@@ -31,7 +31,7 @@ autodoc_mock_imports = [
     'matplotlib.pyplot',
     'matplotlib.font_manager',
     'matplotlib.cm',
-    'mpl_toolkits.mplot3d',
+    'mpl_toolkits.mplot3d'
 ]
 
 # -- General configuration ------------------------------------------------
