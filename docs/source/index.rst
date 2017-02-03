@@ -27,6 +27,7 @@ Installation
 Install pynamical by running:
 
 .. code-block:: shell
+
     pip install pynamical
     
 Examples
