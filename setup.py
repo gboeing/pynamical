@@ -34,7 +34,7 @@ classifiers=['Development Status :: 5 - Production/Stable',
              'Programming Language :: Python :: 3.6']
 
 setup(name='pynamical',
-      version='0.1.1dev',
+      version='0.1.1',
       description='Model, simulate, and visualize discrete nonlinear dynamical systems',
       long_description=long_description,
       classifiers=classifiers,
