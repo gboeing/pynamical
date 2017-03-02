@@ -4,7 +4,7 @@
 # Author: Geoff Boeing
 # Web: http://geoffboeing.com/
 # Code repo: https://github.com/gboeing/pynamical
-# Demonstration: http://geoffboeing.com/2015/03/chaos-theory-logistic-map/
+# Documentation: https://pynamical.readthedocs.io/en/latest/
 #
 # The MIT License (MIT)
 #
