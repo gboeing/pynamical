@@ -12,6 +12,14 @@ You can read/cite the journal article about pynamical: Boeing, G. 2016. "[Visual
 
 ## Install:
 
+You can install pynamical with conda:
+
+```
+conda install -c conda-forge pynamical
+```
+
+Or with pip:
+
 ```
 pip install pynamical
 ```
