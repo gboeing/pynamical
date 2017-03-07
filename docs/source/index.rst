@@ -24,7 +24,13 @@ You can read/cite the journal article about pynamical: Boeing, G. 2016. "`Visual
 Installation
 ------------
 
-Install pynamical by running:
+You can install pynamical with conda:
+
+.. code-block:: shell
+
+    conda install -c conda-forge pynamical
+
+Or with pip:
 
 .. code-block:: shell
 
