@@ -16,10 +16,7 @@ pynamical is a Python package for modeling, simulating, visualizing, and animati
 systems and chaos. It uses pandas, numpy, and numba for fast simulation, and matplotlib for beautiful visualizations 
 and animations to explore system behavior. Compatible with Python 2 and 3.
 
-Citation
---------
 
-You can read/cite the journal article about pynamical: Boeing, G. 2016. "`Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction`_." *Systems*, 4 (4), 37. doi:10.3390/systems4040037.
 
 Installation
 ------------
@@ -59,7 +56,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. _Visual Analysis of Nonlinear Dynamical Systems\: Chaos, Fractals, Self-Similarity and the Limits of Prediction: http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/
-.. _reference guide: pynamical.html
 .. _https://github.com/gboeing/pynamical: https://github.com/gboeing/pynamical
 .. _https://github.com/gboeing/pynamical/issues: https://github.com/gboeing/pynamical/issues
