@@ -11,7 +11,7 @@ pynamical uses pandas, numpy, and numba for fast simulation, and matplotlib for 
 
 ## Install:
 
-You can install pynamical with conda:
+You can install pynamical with [conda](https://anaconda.org/conda-forge/pynamical):
 
 ```
 conda install -c conda-forge pynamical
