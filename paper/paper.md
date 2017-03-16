@@ -29,7 +29,9 @@
   This package makes the demonstration, exploration, and visualization of the basic principles of nonlinearity, chaos, and fractals easy and intuitive for research, engineering, and pedagogy. Although most real-world systems are nonlinear dynamical systems, their mathematical analysis is notoriously difficult because they cannot be simply broken down into individual parts then recombined linearly (Strogatz 2014). Instead, researchers and instructors have long relied on visualization techniques to make system behavior comprehensible (Alpigini 2004; Layek 2015). Such visualization is particularly powerful when exploring nonlinear time series data (Bradley and Kantz 2015; Boeing 2016).
 
   Pynamical facilitates the modeling, visualization, and exploration of this rich nonlinear behavior, as demonstrated in Figures 1 and 2. The existing software landscape typically requires that such tools either a) be developed ad hoc from scratch or b) exist as add-ons to expensive closed-source commercial packages like MATLAB (Tomida 2008). Pynamical addresses the need for a fast, simple, extensible, free, and open-source Python package for the analysis of such systems in research and pedagogy. It depends on the pandas, numpy, numba, and matplotlib Python packages for fast simulation and attractive visualizations to explore system behavior.
-
+  
+  The latest stable release of the software can be installed via `pip` and full documentation can be found at https://pynamical.readthedocs.io.
+  
   ![Figure 1. Bifurcation diagram of the logistic map's chaotic regime.](figure_01.png)
   *Figure 1. Bifurcation diagram of the logistic map's chaotic regime.*
   
