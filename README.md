@@ -83,9 +83,5 @@ Animate a cobweb plot of the logistic map's parameter space [to explore](example
 
 ![](examples/images/animated-logistic-cobweb.gif)
 
-## For more info:
-  - [Read the journal article](http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)
-  - [Chaos Theory and the Logistic Map](http://geoffboeing.com/2015/03/chaos-theory-logistic-map/)
-  - [Visualizing Chaos and Randomness with Phase Diagrams](http://geoffboeing.com/2015/04/visualizing-chaos-and-randomness/)
-  - [Animated 3D Plots in Python](http://geoffboeing.com/2015/04/animated-3d-plots-python/)
+
   
