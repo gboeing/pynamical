@@ -8,6 +8,7 @@
 
 pynamical uses pandas, numpy, and numba for fast simulation, and matplotlib for beautiful visualizations and animations to explore system behavior. Compatible with Python 2+3.
 
+You can read/cite the journal article about pynamical: Boeing, G. 2016. "[Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction](http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)." *Systems*, 4 (4), 37. doi:10.3390/systems4040037.
 
 ## Install:
 
@@ -83,5 +84,8 @@ Animate a cobweb plot of the logistic map's parameter space [to explore](example
 
 ![](examples/images/animated-logistic-cobweb.gif)
 
-
-  
+## For more info:
+  - [Read the journal article](http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)
+  - [Chaos Theory and the Logistic Map](http://geoffboeing.com/2015/03/chaos-theory-logistic-map/)
+  - [Visualizing Chaos and Randomness with Phase Diagrams](http://geoffboeing.com/2015/04/visualizing-chaos-and-randomness/)
+  - [Animated 3D Plots in Python](http://geoffboeing.com/2015/04/animated-3d-plots-python/)
