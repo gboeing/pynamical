@@ -1,4 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
 [![Build Status](https://travis-ci.org/gboeing/pynamical.svg?branch=master)](https://travis-ci.org/gboeing/pynamical)
 [![Coverage Status](https://coveralls.io/repos/github/gboeing/pynamical/badge.svg?branch=master)](https://coveralls.io/github/gboeing/pynamical?branch=master)
 
@@ -80,7 +81,7 @@ Animate the 3D phase diagram of the logistic map [to reveal](examples/pynamical-
 
 ![](examples/images/phase-animate/05-logistic-3d-phase-diagram-chaotic-regime.gif)
 
-Animate a cobweb plot of the logistic map's parameter space [to explore](examples/pynamical-demo-cobweb-plots.ipynb) sensitivity and behavior: 
+Animate a cobweb plot of the logistic map's parameter space [to explore](examples/pynamical-demo-cobweb-plots.ipynb) sensitivity and behavior:
 
 ![](examples/images/animated-logistic-cobweb.gif)
 
