@@ -7,10 +7,6 @@ nonlinear dynamical systems and chaos. pynamical uses pandas, numpy, and numba f
 and matplotlib for beautiful visualizations and animations to explore system behavior. Compatible 
 with Python 2 and 3. See the examples and demos on `GitHub`_.
 
-You can read/cite the journal article about pynamical: Boeing, G. 2016. 
-"`Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction`_." 
-*Systems*, 4 (4), 37. doi:10.3390/systems4040037.
-
 .. _GitHub: https://github.com/gboeing/pynamical
 .. _Visual Analysis of Nonlinear Dynamical Systems\: Chaos, Fractals, Self-Similarity and the Limits of Prediction: http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/
 """
@@ -34,7 +30,7 @@ classifiers=['Development Status :: 5 - Production/Stable',
              'Programming Language :: Python :: 3.6']
 
 setup(name='pynamical',
-      version='0.1.1',
+      version='0.1.2',
       description='Model, simulate, and visualize discrete nonlinear dynamical systems',
       long_description=long_description,
       classifiers=classifiers,
@@ -44,8 +40,8 @@ setup(name='pynamical',
       license='MIT',
       platforms='any',
       packages=['pynamical'],
-      install_requires=['pandas>=0.19',
-                        'numpy>=1.11',
-                        'matplotlib>=2',
-                        'numba>=0.29'])
+      install_requires=['pandas>=0.22',
+                        'numpy>=1.14',
+                        'matplotlib>=2.2',
+                        'numba>=0.37'])
                         
