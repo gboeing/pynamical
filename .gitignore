@@ -1,5 +1,6 @@
 examples/images/phase-animate/*/*.png
 examples/images/cobweb-animate/*.png
+.pytest_cache
 .temp
 run_tests.bat
 
