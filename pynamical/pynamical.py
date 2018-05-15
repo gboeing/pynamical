@@ -8,7 +8,7 @@
 #
 # The MIT License (MIT)
 #
-# Copyright (c) 2017 Geoff Boeing http://geoffboeing.com
+# Copyright (c) 2018 Geoff Boeing http://geoffboeing.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -851,8 +851,8 @@ def phase_diagram_3d(pops, discard_gens=0, figsize=(10,8), xmin=0, xmax=1, ymin=
     #remove all ticks if argument is True
     if remove_ticks:
         ax.tick_params(reset=True, axis='both', which='both', pad=0, width=0, length=0,
-                       bottom='off', top='off', left='off', right='off', 
-                       labelbottom='off', labeltop='off', labelleft='off', labelright='off')
+                       bottom=False, top=False, left=False, right=False, 
+                       labelbottom=False, labeltop=False, labelleft=False, labelright=False)
     else:
         ax.tick_params(reset=True)
         
