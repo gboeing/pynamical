@@ -13,7 +13,10 @@ tags:
 authors:
   - name: Geoff Boeing
     orcid: 0000-0003-1851-6411
-    affiliation: University of California, Berkeley
+    affiliation: 1
+affiliations:
+  - name: University of California, Berkeley
+    index: 1
 date: 15 May 2018
 bibliography: paper.bib
 repository: https://github.com/gboeing/pynamical
