@@ -28,6 +28,7 @@ autodoc_mock_imports = [
     'pandas',
     'numpy',
     'numba',
+    'matplotlib',
     'matplotlib.pyplot',
     'matplotlib.font_manager',
     'matplotlib.cm',
