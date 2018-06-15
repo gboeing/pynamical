@@ -29,6 +29,7 @@ autodoc_mock_imports = [
     'numpy',
     'numba',
     'matplotlib',
+    'mpl_toolkits',
     'matplotlib.pyplot',
     'matplotlib.font_manager',
     'matplotlib.cm',
