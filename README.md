@@ -7,7 +7,9 @@
 
 **Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical systems and chaos**
 
-pynamical uses pandas, numpy, and numba for fast simulation, and matplotlib for beautiful visualizations and animations to explore system behavior. Compatible with Python 2+3.
+Pynamical uses pandas, numpy, and numba for fast simulation of one-dimensional maps, and matplotlib for beautiful visualizations and animations to explore system behavior. Compatible with Python 2+3.
+
+Pynamical facilitates defining discrete one-dimensional nonlinear models as Python functions with just-in-time compilation for fast simulation. It comes packaged with the logistic map, the Singer map, and the cubic map predefined. The models may be run with a range of parameter values over a set of time steps, and the resulting numerical output is returned as a pandas DataFrame. Pynamical can then visualize this output in various ways, including with bifurcation diagrams, two-dimensional phase diagrams, three-dimensional phase diagrams, and cobweb plots.
 
 
 ## Install:
@@ -83,3 +85,6 @@ Animate the 3D phase diagram of the logistic map [to reveal](examples/pynamical-
 Animate a cobweb plot of the logistic map's parameter space [to explore](examples/pynamical-demo-cobweb-plots.ipynb) sensitivity and behavior:
 
 ![](examples/images/animated-logistic-cobweb.gif)
+
+Or define your [own model](https://github.com/gboeing/pynamical/blob/master/examples/pynamical-demo-other-models.ipynb) and simulate it with pynamical.
+
