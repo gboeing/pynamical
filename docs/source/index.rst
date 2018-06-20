@@ -12,9 +12,10 @@ pynamical documentation
 
    pynamical
 
-pynamical is a Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical 
-systems and chaos. It uses pandas, numpy, and numba for fast simulation, and matplotlib for beautiful visualizations 
-and animations to explore system behavior. Compatible with Python 2 and 3.
+pynamical is a Python package for modeling, simulating, visualizing, and animating chaos 
+and discrete nonlinear dynamical systems, focusing on 1-D maps. It uses pandas, numpy, and 
+numba for fast simulation, and matplotlib for beautiful visualizations and animations to 
+explore system behavior. Compatible with Python 2 and 3.
 
 
 Installation
