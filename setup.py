@@ -34,7 +34,7 @@ classifiers=['Development Status :: 5 - Production/Stable',
              'Programming Language :: Python :: 3.6']
 
 setup(name='pynamical',
-      version='0.1.2',
+      version='0.2',
       description='Model, simulate, and visualize discrete nonlinear dynamical systems',
       long_description=long_description,
       classifiers=classifiers,
@@ -44,8 +44,8 @@ setup(name='pynamical',
       license='MIT',
       platforms='any',
       packages=['pynamical'],
-      install_requires=['pandas>=0.22',
+      install_requires=['pandas>=0.23',
                         'numpy>=1.14',
                         'matplotlib>=2.2',
-                        'numba>=0.37'])
+                        'numba>=0.38'])
                         
