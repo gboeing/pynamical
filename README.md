@@ -7,10 +7,11 @@
 
 **Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical systems and chaos**
 
-Pynamical uses pandas, numpy, and numba for fast simulation of one-dimensional maps, and matplotlib for beautiful visualizations and animations to explore system behavior. Compatible with Python 2+3.
+pynamical uses pandas, numpy, and numba for fast simulation, and matplotlib for visualizations and animations to explore system behavior. Compatible with Python 2 and 3.
 
-Pynamical facilitates defining discrete one-dimensional nonlinear models as Python functions with just-in-time compilation for fast simulation. It comes packaged with the logistic map, the Singer map, and the cubic map predefined. The models may be run with a range of parameter values over a set of time steps, and the resulting numerical output is returned as a pandas DataFrame. Pynamical can then visualize this output in various ways, including with bifurcation diagrams, two-dimensional phase diagrams, three-dimensional phase diagrams, and cobweb plots.
+Pynamical comes packaged with the logistic map, the Singer map, and the cubic map predefined. The models may be run with a range of parameter values over a set of time steps, and the resulting numerical output is returned as a pandas DataFrame. Pynamical can then visualize this output in various ways, including with bifurcation diagrams, two-dimensional phase diagrams, three-dimensional phase diagrams, and cobweb plots.
 
+You can read/cite the journal article about pynamical: Boeing, G. 2016. "[Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction](http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)." *Systems*, 4 (4), 37. doi:10.3390/systems4040037.
 
 ## Install:
 
@@ -87,4 +88,3 @@ Animate a cobweb plot of the logistic map's parameter space [to explore](example
 ![](examples/images/animated-logistic-cobweb.gif)
 
 Or define your [own model](https://github.com/gboeing/pynamical/blob/master/examples/pynamical-demo-other-models.ipynb) and simulate it with pynamical.
-
