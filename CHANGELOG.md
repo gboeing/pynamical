@@ -1,5 +1,11 @@
 # Change log
 
+## 0.2 (2018-07-05)
+
+  - update tests
+  - update documentation
+  - update dependencies
+
 ## 0.1.2 (2018-05-15)
 
   - fix matplotlib deprecation
