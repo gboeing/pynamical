@@ -1,5 +1,8 @@
 # Change log
 
+## 0.2.1 (2019-01-26)
+  - python 3.7 compatibility
+
 ## 0.2 (2018-07-05)
 
   - update tests
