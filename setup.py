@@ -29,23 +29,23 @@ classifiers=['Development Status :: 5 - Production/Stable',
              'Programming Language :: Python :: 2',
              'Programming Language :: Python :: 3',
              'Programming Language :: Python :: 2.7',
-             'Programming Language :: Python :: 3.4',
              'Programming Language :: Python :: 3.5',
-             'Programming Language :: Python :: 3.6']
+             'Programming Language :: Python :: 3.6',
+             'Programming Language :: Python :: 3.7']
 
 setup(name='pynamical',
-      version='0.2',
+      version='0.2.1',
       description='Model, simulate, and visualize discrete nonlinear dynamical systems',
       long_description=long_description,
       classifiers=classifiers,
       url='https://github.com/gboeing/pynamical',
       author='Geoff Boeing',
-      author_email='gboeing@berkeley.edu',
+      author_email='g.boeing@northeastern.edu',
       license='MIT',
       platforms='any',
       packages=['pynamical'],
-      install_requires=['pandas>=0.23',
-                        'numpy>=1.14',
+      install_requires=['pandas>=0.24',
+                        'numpy>=1.15',
                         'matplotlib>=2.2',
-                        'numba>=0.38'])
+                        'numba>=0.39'])
                         
