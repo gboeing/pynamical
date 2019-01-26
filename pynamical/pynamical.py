@@ -2,13 +2,13 @@
 # pynamical
 # Description: Model, simulate, and visualize discrete nonlinear dynamical systems and chaos
 # Author: Geoff Boeing
-# Web: http://geoffboeing.com/
+# Web: https://geoffboeing.com/
 # Code repo: https://github.com/gboeing/pynamical
-# Documentation: https://pynamical.readthedocs.io/en/latest/
+# Documentation: https://pynamical.readthedocs.io/
 #
 # The MIT License (MIT)
 #
-# Copyright (c) 2018 Geoff Boeing http://geoffboeing.com
+# Copyright (c) 2019 Geoff Boeing https://geoffboeing.com/
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
