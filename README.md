@@ -1,5 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
+[![Documentation Status](https://readthedocs.org/projects/pynamical/badge/?version=latest)](http://pynamical.readthedocs.io)
 [![Build Status](https://travis-ci.org/gboeing/pynamical.svg?branch=master)](https://travis-ci.org/gboeing/pynamical)
 [![Coverage Status](https://coveralls.io/repos/github/gboeing/pynamical/badge.svg?branch=master)](https://coveralls.io/github/gboeing/pynamical?branch=master)
 
