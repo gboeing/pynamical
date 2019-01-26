@@ -715,7 +715,7 @@ def phase_diagram(pops, discard_gens=0, figsize=(6,6), xmin=0, xmax=1, ymin=0, y
     # plot the xy data for each run of the model that appears in the MultiIndex
     for n in range(len(names)):
         xy = points.iloc[index == names[n]]
-        plots.append(ax.scatter(xy['x'], xy['y'], marker=marker, c=color_list[n], edgecolor='none', s=size, alpha=alpha))
+        plots.append(ax.scatter(xy['x'], xy['y'], marker=marker, c=[color_list[n]], edgecolor='none', s=size, alpha=alpha))
         
     # add a legend if argument is True
     if legend:
@@ -863,7 +863,7 @@ def phase_diagram_3d(pops, discard_gens=0, figsize=(10,8), xmin=0, xmax=1, ymin=
     for n in range(len(names)):
         xyz = points.iloc[index == names[n]]
         plots.append(ax.scatter(xyz['x'], xyz['y'], xyz['z'], 
-                                marker=marker, c=color_list[n], edgecolor=color_list[n], s=size, alpha=alpha))
+                                marker=marker, c=[color_list[n]], edgecolor=[color_list[n]], s=size, alpha=alpha))
         
     # add a legend if argument is True
     if legend:
