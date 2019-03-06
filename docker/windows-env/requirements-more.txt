@@ -1,0 +1,9 @@
+bottleneck
+cython
+jupyterlab
+nodejs
+numexpr
+pillow
+pip
+pynamical
+python == 3.*
