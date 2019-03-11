@@ -25,7 +25,8 @@ You can install pynamical with conda:
 
     conda install -c conda-forge pynamical
 
-Or with pip:
+Alternatively, you can run pynamical + Jupyter directly from this
+`docker container`_, or you can install it with pip:
 
 .. code-block:: shell
 
@@ -54,6 +55,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _docker container: https://hub.docker.com/r/gboeing/pynamical
 .. _https://github.com/gboeing/pynamical: https://github.com/gboeing/pynamical
 .. _https://github.com/gboeing/pynamical/issues: https://github.com/gboeing/pynamical/issues
 .. _Visual Analysis of Nonlinear Dynamical Systems\: Chaos, Fractals, Self-Similarity and the Limits of Prediction: http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/
