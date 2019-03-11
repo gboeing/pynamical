@@ -32,13 +32,14 @@ USER root
 RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
 USER $NB_UID
 
+COPY "requirements-more.txt" /tmp/
+
 # configure conda and install packages in one RUN to keep image tidy
 RUN conda config --set show_channel_urls true && \
     conda config --prepend channels conda-forge && \
-    conda update --override-channels -c conda-forge --yes -n base conda && \
-    conda update --override-channels -c conda-forge --yes --all && \
-    conda install --override-channels -c conda-forge --yes pynamical && \
-    conda clean --yes --all && \
+    conda update --strict-channel-priority --yes -n base conda && \
+    conda install --strict-channel-priority --update-all --force-reinstall --yes --file /tmp/requirements-more.txt && \
+    conda clean --all --yes && \
     conda info --all && \
     conda list
 
