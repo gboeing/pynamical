@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
-[![Documentation Status](https://readthedocs.org/projects/pynamical/badge/?version=latest)](http://pynamical.readthedocs.io)
+[![Documentation Status](https://readthedocs.org/projects/pynamical/badge/?version=latest)](https://pynamical.readthedocs.io/)
 [![Build Status](https://travis-ci.org/gboeing/pynamical.svg?branch=master)](https://travis-ci.org/gboeing/pynamical)
 [![Coverage Status](https://coveralls.io/repos/github/gboeing/pynamical/badge.svg?branch=master)](https://coveralls.io/github/gboeing/pynamical?branch=master)
 
@@ -12,7 +12,7 @@ pynamical uses pandas, numpy, and numba for fast simulation, and matplotlib for 
 
 Pynamical comes packaged with the logistic map, the Singer map, and the cubic map predefined. The models may be run with a range of parameter values over a set of time steps, and the resulting numerical output is returned as a pandas DataFrame. Pynamical can then visualize this output in various ways, including with bifurcation diagrams, two-dimensional phase diagrams, three-dimensional phase diagrams, and cobweb plots.
 
-You can read/cite the journal article about pynamical: Boeing, G. 2016. "[Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction](http://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)." *Systems*, 4 (4), 37. doi:10.3390/systems4040037.
+You can read/cite the journal article about pynamical: Boeing, G. 2016. "[Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction](https://geoffboeing.com/publications/nonlinear-chaos-fractals-prediction/)." *Systems*, 4 (4), 37. doi:10.3390/systems4040037.
 
 ## Install:
 
@@ -22,7 +22,9 @@ You can install pynamical with [conda](https://anaconda.org/conda-forge/pynamica
 conda install -c conda-forge pynamical
 ```
 
-Or with pip:
+Alternatively, you can run pynamical + Jupyter directly from this
+[docker container](https://hub.docker.com/r/gboeing/pynamical), 
+or you can install it with pip:
 
 ```
 pip install pynamical
@@ -30,7 +32,7 @@ pip install pynamical
 
 ## Documentation:
 
-Available on [readthedocs](https://pynamical.readthedocs.io/en/latest/).
+Available on [readthedocs](https://pynamical.readthedocs.io/).
 
 ## Demos/tutorial:
   1. [Pynamical: quick overview](examples/pynamical-quick-overview.ipynb)
