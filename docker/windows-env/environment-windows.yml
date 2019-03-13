@@ -17,7 +17,7 @@ dependencies:
   - cffi=1.12.2=py36hb32ad35_1
   - chardet=3.0.4=py36_1003
   - colorama=0.4.1=py_0
-  - coverage=4.5.2=py36hfa6e2cd_1001
+  - coverage=4.5.3=py36hfa6e2cd_0
   - coveralls=1.5.1=py_0
   - cryptography=2.5=py36h74b6da3_1
   - cycler=0.10.0=py_1
@@ -63,7 +63,7 @@ dependencies:
   - nbconvert=5.4.1=py_2
   - nbformat=4.4.0=py_1
   - nodejs=11.11.0=0
-  - notebook=5.7.5=py36_0
+  - notebook=5.7.6=py36_0
   - numba=0.39.0=py36h830ac7b_0
   - numexpr=2.6.9=py36h6538335_1000
   - numpy=1.16.2=py36_blas_openblash442142e_0
@@ -72,7 +72,7 @@ dependencies:
   - openmp=5.0.0=vc14_1
   - openssl=1.0.2r=hfa6e2cd_0
   - packaging=19.0=py_0
-  - pandas=0.24.1=py36h6538335_0
+  - pandas=0.24.2=py36h6538335_0
   - pandoc=2.6=1
   - pandocfilters=1.4.2=py_1
   - parso=0.3.4=py_0
@@ -83,7 +83,7 @@ dependencies:
   - prometheus_client=0.6.0=py_0
   - prompt_toolkit=2.0.9=py_0
   - py=1.8.0=py_0
-  - pycparser=2.19=py_0
+  - pycparser=2.19=py36_1
   - pygments=2.3.1=py_0
   - pynamical=0.2.1=py_1
   - pyopenssl=19.0.0=py36_0
@@ -91,7 +91,7 @@ dependencies:
   - pyqt=5.6.0=py36h764d66f_1008
   - pyrsistent=0.14.11=py36hfa6e2cd_0
   - pysocks=1.6.8=py36_1002
-  - pytest=4.3.0=py36_0
+  - pytest=4.3.1=py36_0
   - python=3.6.7=he025d50_1004
   - python-dateutil=2.8.0=py_0
   - pytz=2018.9=py_0
