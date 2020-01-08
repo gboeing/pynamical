@@ -1,9 +1,17 @@
 bottleneck
+coverage
+coveralls
 cython
 jupyterlab
+matplotlib
 nodejs
+numba
 numexpr
+numpy
+pandas
 pillow
 pip
 pynamical
+pytest
 python == 3.*
+sphinx

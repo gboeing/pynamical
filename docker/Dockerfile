@@ -7,8 +7,8 @@
 # >>> docker build -t gboeing/pynamical .
 #
 # Push the built image to hub so others can pull/run it:
-# >>> docker tag gboeing/pynamical gboeing/pynamical:v0.0.0
 # >>> docker login
+# >>> docker tag gboeing/pynamical gboeing/pynamical:v0.0.0
 # >>> docker push gboeing/pynamical
 #
 # Run bash in this container and export final conda environment to a yml file:
@@ -24,21 +24,20 @@
 # >>> docker rmi $(docker images -q)
 ########################################################################
 
-FROM jupyter/base-notebook
-LABEL maintainer="Geoff Boeing <g.boeing@northeastern.edu>"
+FROM continuumio/miniconda3
+LABEL maintainer="Geoff Boeing <boeing@usc.edu>"
+LABEL url="https://github.com/gboeing/pynamical"
+LABEL description="Pynamical is a Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical systems and chaos."
 
-# symlink and permissions
-USER root
-RUN ln -s /opt/conda/bin/jupyter /usr/local/bin
-USER $NB_UID
-
-COPY "requirements-more.txt" /tmp/
+COPY requirements.txt /tmp/
 
 # configure conda and install packages in one RUN to keep image tidy
 RUN conda config --set show_channel_urls true && \
+	conda config --set channel_priority strict && \
     conda config --prepend channels conda-forge && \
-    conda update --strict-channel-priority --yes -n base conda && \
-    conda install --strict-channel-priority --update-all --force-reinstall --yes --file /tmp/requirements-more.txt && \
+    conda update --yes -n base conda && \
+    conda install --update-all --force-reinstall --yes --file /tmp/requirements.txt && \
+    python -m ipykernel install --name pyn --display-name "Python (pyn)" && \
     conda clean --all --yes && \
     conda info --all && \
     conda list
@@ -47,7 +46,7 @@ RUN conda config --set show_channel_urls true && \
 WORKDIR /home/jovyan/work
 
 # set default command to launch when container is run
-CMD ["jupyter", "lab", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+CMD ["jupyter", "lab", "--ip='0.0.0.0'", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
 
 # to test, import pynamical and print its version
 RUN python -c "import pynamical; print(pynamical.__version__)"
