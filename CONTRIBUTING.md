@@ -1,6 +1,6 @@
 Thanks for using pynamical and for considering contributing to it!
 
-#### If you've found an error:
+#### If you've found a bug:
 
   - read the error message and [documentation](https://pynamical.readthedocs.io/)
   - search through the [open issues](https://github.com/gboeing/pynamical/issues?q=is%3Aopen+is%3Aissue) and [closed issues](https://github.com/gboeing/pynamical/issues?q=is%3Aissue+is%3Aclosed) first
@@ -14,7 +14,7 @@ Thanks for using pynamical and for considering contributing to it!
   - fork the repo, make your change (adhering to pynamical's existing coding, commenting, and docstring styles), [test it](https://github.com/gboeing/pynamical/tree/master/tests), and submit a PR
   - respond to code review
 
-#### If this is a general/usage question rather than an error or feature proposal:
+#### If this is a general/usage question (rather than a bug report or proposed PR):
 
   - please ask your question on [StackOverflow](https://stackoverflow.com/search?q=pynamical)
 
