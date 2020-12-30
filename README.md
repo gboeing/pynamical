@@ -1,5 +1,4 @@
 [![PyPI Version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
-[![PyPI Downloads](https://img.shields.io/pypi/dm/pynamical.svg)](https://badge.fury.io/py/pynamical)
 [![Anaconda Downloads](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
 [![Documentation Status](https://readthedocs.org/projects/pynamical/badge/?version=latest)](https://pynamical.readthedocs.io/)
 [![Build Status](https://github.com/gboeing/pynamical/workflows/tests/badge.svg?branch=master)](https://github.com/gboeing/pynamical/actions?query=workflow%3A%22tests%22)
