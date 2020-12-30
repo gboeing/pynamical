@@ -1,20 +1,14 @@
-name: osmnx-dev
+name: pynamical-dev
 
 channels:
     - conda-forge
 
 dependencies:
     # required
-    - descartes
-    - geopandas
     - matplotlib
-    - networkx
+    - numba
     - numpy
     - pandas
-    - pyproj
-    - requests
-    - Rtree
-    - Shapely
 
     # extras
     - folium
