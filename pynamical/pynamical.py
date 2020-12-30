@@ -1,33 +1,4 @@
-#################################################################################################################
-# pynamical
-# Description: Model, simulate, and visualize discrete nonlinear dynamical systems and chaos
-# Author: Geoff Boeing
-# Web: https://geoffboeing.com/
-# Code repo: https://github.com/gboeing/pynamical
-# Documentation: https://pynamical.readthedocs.io/
-#
-# The MIT License (MIT)
-#
-# Copyright (c) 2019 Geoff Boeing https://geoffboeing.com/
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-#################################################################################################################
+"""pynamical core."""
 
 import os
 
@@ -36,7 +7,6 @@ import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from mpl_toolkits.mplot3d import Axes3D
 from numba import jit
 
 
@@ -56,7 +26,6 @@ def get_title_font(family="Helvetica", style="normal", size=20, weight="normal",
     -------
     matplotlib.font_manager.FontProperties
     """
-
     if family == "Helvetica":
         family = ["Helvetica", "Arial", "sans-serif"]
     fp = fm.FontProperties(family=family, style=style, size=size, weight=weight, stretch=stretch)
@@ -79,7 +48,6 @@ def get_label_font(family="Helvetica", style="normal", size=16, weight="normal",
     -------
     matplotlib.font_manager.FontProperties
     """
-
     if family == "Helvetica":
         family = ["Helvetica", "Arial", "sans-serif"]
     fp = fm.FontProperties(family=family, style=style, size=size, weight=weight, stretch=stretch)
@@ -107,7 +75,6 @@ def save_fig(filename="image", folder="images", dpi=300, bbox_inches="tight", pa
     -------
     None
     """
-
     if not os.path.exists(folder):
         os.makedirs(folder)
     plt.savefig(
@@ -119,7 +86,9 @@ def save_and_show(
     fig, ax, save, show, filename="image", folder="images", dpi=300, bbox_inches="tight", pad=0.1
 ):
     """
-    Consistently handle plot completion by saving then either displaying or returning the figure.
+    Consistently handle plot completion.
+
+    Save then either display or return the figure.
 
     Arguments
     ---------
@@ -128,7 +97,7 @@ def save_and_show(
     save: bool
         whether to save the image to disk, or not
     show: bool
-        whether to display the image or instead just return the figure and axis
+        whether to display the image or instead just return figure and axis
     filename: string
         filename of image file to be saved
     folder: string
@@ -145,7 +114,6 @@ def save_and_show(
     tuple
         (fig, ax) if show=False, otherwise returns None
     """
-
     if save:
         save_fig(filename=filename, folder=folder, dpi=dpi, bbox_inches=bbox_inches, pad=pad)
 
@@ -172,7 +140,6 @@ def logistic_map(pop, rate):
     float
         scalar result of logistic map at time t+1
     """
-
     return pop * rate * (1 - pop)
 
 
@@ -193,7 +160,6 @@ def cubic_map(pop, rate):
     float
         scalar result of cubic map at time t+1
     """
-
     return rate * pop ** 3 + pop * (1 - rate)
 
 
@@ -214,7 +180,6 @@ def singer_map(pop, rate):
     float
         scalar result of singer map at time t+1
     """
-
     return rate * (7.86 * pop - 23.31 * pop ** 2 + 28.75 * pop ** 3 - 13.3 * pop ** 4)
 
 
@@ -229,12 +194,17 @@ def simulate(
     jit=True,
 ):
     """
-    Call simulator (either JIT compiled or not) to create a DataFrame with columns for each growth rate, row labels for each time step, and values computed by the model.
+    Simulate a module.
+
+    Call simulator (either JIT compiled or not) to create a DataFrame with
+    columns for each growth rate, row labels for each time step, and values
+    computed by the model.
 
     Arguments
     ---------
     model: function
-        the function defining an iterated map to simulate; default is the logistic map
+        the function defining an iterated map to simulate; default is the
+        logistic map
     num_gens: int
         number of iterations to run the model
     rate_min: float
@@ -248,13 +218,13 @@ def simulate(
     initial_pop: float
         starting population when you run the model, between 0 and 1
     jit: bool
-        if True, use jit compiled simulator function to speed up simulation, if False, use uncompiled simulator function
+        if True, use jit compiled simulator function to speed up simulation,
+        if False, use uncompiled simulator function
 
     Returns
     -------
     DataFrame
     """
-
     if jit:
         return simulate_jit(
             model=model,
@@ -279,7 +249,10 @@ def simulate(
 
 def simulate_no_compile(model, num_gens, rate_min, rate_max, num_rates, num_discard, initial_pop):
     """
-    Create a DataFrame with columns for each growth rate, row labels for each time step, and values computed by the model (without JIT compilation).
+    Create a DataFrame with columns for each growth rate.
+
+    Row labels for each time step and values computed by the model (without
+    JIT compilation).
 
     Arguments
     ---------
@@ -302,7 +275,6 @@ def simulate_no_compile(model, num_gens, rate_min, rate_max, num_rates, num_disc
     -------
     DataFrame
     """
-
     pops = []
     rates = np.linspace(rate_min, rate_max, num_rates)
 
@@ -314,12 +286,13 @@ def simulate_no_compile(model, num_gens, rate_min, rate_max, num_rates, num_disc
         for _ in range(num_discard):
             pop = model(pop, rate)
 
-        # now that those gens are discarded, run it num_gens times and keep the results
+        # now that those gens are discarded, run it num_gens times
         for _ in range(num_gens):
             pops.append([rate, pop])
             pop = model(pop, rate)
 
-    # return a DataFrame with one column for each growth rate and one row for each timestep (aka generation)
+    # return a DataFrame with one column for each growth rate and one row for
+    # each timestep (aka generation)
     df = pd.DataFrame(data=pops, columns=["rate", "pop"])
     df.index = pd.MultiIndex.from_arrays([num_rates * list(range(num_gens)), df["rate"].values])
     return df.drop(labels="rate", axis=1).unstack()["pop"]
@@ -327,12 +300,16 @@ def simulate_no_compile(model, num_gens, rate_min, rate_max, num_rates, num_disc
 
 def simulate_jit(model, num_gens, rate_min, rate_max, num_rates, num_discard, initial_pop):
     """
-    Create a DataFrame with columns for each growth rate, row labels for each time step, and values computed by the model (with JIT compilation).
+    Create a DataFrame with columns for each growth rate.
 
-    You can't pass a jitted function to a jitted function unless you turn off 'nopython' mode (which makes it slow)
-    In other words, you can't pass different model functions directly to the simulate function. Instead, use a closure:
-    The make_jit_simulator function returns a jitted simulator function that receives the jitted model function,
-    without it being an argument passed to the simulator function, because of the closure local scope
+    Row labels for each time step, and values computed by the model (with JIT
+    compilation). You can't pass a jitted function to a jitted function unless
+    you turn off 'nopython' mode (which makes it slow). In other words, you
+    can't pass different model functions directly to the simulate function.
+    Instead, use a closure: The make_jit_simulator function returns a jitted
+    simulator function that receives the jitted model function, without it
+    being an argument passed to the simulator function, because of the closure
+    local scope
 
     Arguments
     ---------
@@ -355,7 +332,6 @@ def simulate_jit(model, num_gens, rate_min, rate_max, num_rates, num_discard, in
     -------
     DataFrame
     """
-
     # make the jitted simulator
     jit_simulator = make_jit_simulator(
         model=model,
@@ -370,7 +346,8 @@ def simulate_jit(model, num_gens, rate_min, rate_max, num_rates, num_discard, in
     # run the jit_simulator to create the pops to pass to the DataFrame
     pops = jit_simulator()
 
-    # return a DataFrame with one column for each growth rate and one row for each timestep (aka generation)
+    # return a DataFrame with one column for each growth rate and one row for
+    # each timestep (aka generation)
     df = pd.DataFrame(data=pops, columns=["rate", "pop"])
     df.index = pd.MultiIndex.from_arrays([num_rates * list(range(num_gens)), df["rate"].values])
     return df.drop(labels="rate", axis=1).unstack()["pop"]
@@ -378,7 +355,10 @@ def simulate_jit(model, num_gens, rate_min, rate_max, num_rates, num_discard, in
 
 def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_discard, initial_pop):
     """
-    Create a jitted simulator function that receives the jitted model function, without it being an argument passed to the simulator function, because of the closure local scope.
+    Create a jitted simulator function.
+
+    It receives the jitted model function, without it being an argument passed
+    to the simulator function, because of the closure local scope.
 
     Arguments
     ---------
@@ -415,7 +395,7 @@ def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_disca
         pops = np.empty(shape=(num_gens * num_rates, 2), dtype=np.float64)
         rates = np.linspace(rate_min, rate_max, num_rates)
 
-        # for each rate, run the function repeatedly, starting at the initial_pop
+        # for each rate, run the function repeatedly, starting at initial_pop
         for rate_num, rate in zip(range(len(rates)), rates):
             pop = initial_pop
 
@@ -423,7 +403,7 @@ def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_disca
             for _ in range(num_discard):
                 pop = model(pop, rate)
 
-            # now that those gens are discarded, run it num_gens times and keep the results
+            # now that those gens are discarded, run it num_gens times
             for gen_num in range(num_gens):
                 row_num = gen_num + num_gens * rate_num
                 pops[row_num] = [rate, pop]
@@ -436,7 +416,9 @@ def make_jit_simulator(model, num_gens, rate_min, rate_max, num_rates, num_disca
 
 def get_bifurcation_plot_points(pops):
     """
-    Convert a DataFrame of values from the model into a set of xy points that you can plot as a bifurcation diagram.
+    Convert a DataFrame of values from the model into a set of xy points.
+
+    You can plot these points as a bifurcation diagram.
 
     Arguments
     ---------
@@ -447,16 +429,16 @@ def get_bifurcation_plot_points(pops):
     -------
     DataFrame
     """
-
     # create a new DataFrame to contain our xy points
     xy_points = pd.DataFrame(columns=["x", "y"])
 
     # for each column in the populations DataFrame
     for rate in pops.columns:
-        # append the growth rate as the x column and all the population values as the y column
+        # append the growth rate as the x column and all the population values
+        # as the y column
         xy_points = xy_points.append(pd.DataFrame({"x": rate, "y": pops[rate]}))
 
-    # reset the index and drop the old index before returning the xy point data
+    # reset the index and drop old index before returning the xy point data
     xy_points = xy_points.reset_index().drop(labels="index", axis=1)
     return xy_points
 
@@ -531,7 +513,6 @@ def bifurcation_plot(
     tuple
         (fig, ax) if show=False, otherwise returns None
     """
-
     if title_font is None:
         title_font = get_title_font()
 
@@ -543,9 +524,7 @@ def bifurcation_plot(
 
     # plot the xy data
     points = get_bifurcation_plot_points(pops)
-    bifurcation_scatter = ax.scatter(
-        points["x"], points["y"], c=color, edgecolor="None", alpha=1, s=1
-    )
+    _ = ax.scatter(points["x"], points["y"], c=color, edgecolor="None", alpha=1, s=1)
 
     # set x and y limits, title, and x and y labels
     ax.set_xlim(xmin, xmax)
@@ -569,24 +548,27 @@ def bifurcation_plot(
 
 def get_phase_colors(color_request, length=1, color_reverse=False, default_color="#003399"):
     """
-    Return a list of colors based on a request that could be a list, string color name, or string colormap name.
+    Return a list of colors based on a request.
+
+    Request could be a list, string color name, or string colormap name.
 
     Arguments
     ---------
     color_request: string or list
-        what color the caller wants, could be a list, string color name, or string colormap name
+        what color the caller wants, could be a list, string color name, or
+        string colormap name
     length: int
         how many total colors to return in the list
     color_reverse: bool
         reverse the returned list of colors if True
     default_color: string
-        if the list is shorter than the specified length, pad it out with default_color
+        if the list is shorter than the specified length, pad it out with
+        default_color
 
     Returns
     -------
     list
     """
-
     color_list = []
     if isinstance(color_request, list):
         # if they passed a list, then just use it
@@ -595,22 +577,25 @@ def get_phase_colors(color_request, length=1, color_reverse=False, default_color
     elif isinstance(color_request, str):
         # if they passed a string, it could be a color name or a colormap name
         if len(color_request) == 1 or color_request.startswith("#"):
-            # if it's only 1 character long or starts with a #, then it's a color name or hex code
+            # if it's only 1 character long or starts with a #, then it's a
+            # color name or hex code
             color_list = [color_request]
             default_color = color_request
         else:
-            # if it's more than 1 character and doesn't start with #, then it's the name of a colormap
+            # if it's more than 1 character and doesn't start with # then it's
+            # the name of a colormap
             color_map = cm.get_cmap(color_request)
             color_list = color_map([x / float(length) for x in range(length)]).tolist()
 
-    # make sure list is same length as specified in length argument - if not, pad it out with default_color, that way, each scatterplot gets a color
+    # make sure list is same length as specified in length argument - if not,
+    # pad it out with default_color, that way, each scatterplot gets a color
     color_list = (
         color_list + [default_color for n in range(length - len(color_list))]
         if len(color_list) < length
         else color_list
     )
 
-    # if the color_reverse=True, reverse the list of colors before returning it
+    # if the color_reverse=True, reverse list of colors before returning it
     if color_reverse:
         color_list.reverse()
 
@@ -619,7 +604,7 @@ def get_phase_colors(color_request, length=1, color_reverse=False, default_color
 
 def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
     """
-    Convert a DataFrame of values from the model into a set of xy(z) points to plot.
+    Convert a DataFrame of values from the model into a set of xy(z) points.
 
     Arguments
     ---------
@@ -628,36 +613,41 @@ def get_phase_diagram_points(pops, discard_gens=1, dimensions=2):
     discard_gens: int
         number of rows to discard before keeping points to plot
     dimensions: int
-        {2, 3}, number of dimensions specifying if we want points for a 2-D or 3-D plot: (t, t+1) vs (t, t+1, t+2)
+        {2, 3}, number of dimensions specifying if we want points for a 2-D or
+        3-D plot: (t, t+1) vs (t, t+1, t+2)
 
     Returns
     -------
     DataFrame
     """
-
-    # drop the first row by default because every run has the same starting value, it leaves a visual artifact
-    # if specified by the argument, drop the initial n rows to show only the eventual attractor the system settles on
+    # drop the first row by default because every run has the same starting
+    # value, it leaves a visual artifact if specified by the argument, drop
+    # the initial n rows to show only the eventual attractor the system
+    # settles on
     if discard_gens > 0 and len(pops) > discard_gens:
         discard_gens = np.arange(0, discard_gens)
         pops = pops.drop(labels=pops.index[discard_gens])
         pops = pops.reset_index().drop(labels="index", axis=1)
 
-    # a point is defined by the name of its model run then its spatial coordinates
+    # a point is defined by the name of its model run then its spatial coords
     points = []
     point_columns = ["name", "x", "y", "z"]
 
-    # for each column in the populations DataFrame, where the label is the 'name' of the model run
+    # for each column in the populations DataFrame, where the label is the
+    # 'name' of the model run
     for name in pops.columns:
 
         # for each row in the column
-        for label, row in pops.iterrows():
+        for label, _ in pops.iterrows():
 
-            # we can only create points up up to row dimensions-1 because we need future time steps to create each point
+            # we can only create points up up to row dimensions-1 because we
+            # need future time steps to create each point
             if label < len(pops) - (dimensions - 1):
 
                 point = [name]
                 for n in range(dimensions):
-                    # append the value at the current time (aka row) as x, t+1 as y (and t+2 as z if dimensions=3)
+                    # append the value at the current time (aka row) as x, t+1
+                    # as y (and t+2 as z if dimensions=3)
                     point.append(pops[name][label + n])
 
                 # append this point to the list of points
@@ -699,7 +689,9 @@ def phase_diagram(
     pad=0.1,
 ):
     """
-    Draw a 2D phase diagram for one or more time series by plotting the value at time t on the x-axis and the value at t+1 on the y-axis.
+    Draw a 2D phase diagram for one or more time series.
+
+    Plot the value at time t on the x-axis and the value at t+1 on the y-axis.
 
     Arguments
     ---------
@@ -759,7 +751,6 @@ def phase_diagram(
     tuple
         (fig, ax) if show=False, otherwise returns None
     """
-
     if title_font is None:
         title_font = get_title_font()
 
@@ -770,7 +761,8 @@ def phase_diagram(
     points = get_phase_diagram_points(pops, discard_gens, dimensions=2)
     plots = []
 
-    # get_phase_diagram_points() returns a MultiIndexed DataFrame, each run of the model has its own 'name' in the index
+    # get_phase_diagram_points() returns a MultiIndexed DataFrame, each run of
+    # the model has its own 'name' in the index
     index = points.index.get_level_values("name")
     names = np.unique(index)
 
@@ -787,7 +779,7 @@ def phase_diagram(
     # make sure we have a list of colors as long as the number of model runs
     color_list = get_phase_colors(color, len(names), color_reverse)
 
-    # plot the xy data for each run of the model that appears in the MultiIndex
+    # plot xy data for each run of the model that appears in the MultiIndex
     for n in range(len(names)):
         xy = points.iloc[index == names[n]]
         plots.append(
@@ -864,7 +856,10 @@ def phase_diagram_3d(
     pad=0.1,
 ):
     """
-    Draw a 3D phase diagram for one or more time series by plotting the value at time t on the x-axis, the value at t+1 on the y-axis, and the value of t+2 on the z-axis.
+    Draw a 3D phase diagram for one or more time series.
+
+    Plot the value at time t on the x-axis, the value at t+1 on the y-axis,
+    and the value of t+2 on the z-axis.
 
     Arguments
     ---------
@@ -940,7 +935,6 @@ def phase_diagram_3d(
     tuple
     (fig, ax) if show=False, otherwise returns None
     """
-
     if title_font is None:
         title_font = get_title_font()
 
@@ -951,11 +945,12 @@ def phase_diagram_3d(
     points = get_phase_diagram_points(pops, discard_gens, dimensions=3)
     plots = []
 
-    # get_phase_diagram_points() returns a MultiIndexed DataFrame, each run of the model has its own 'name' in the index
+    # get_phase_diagram_points() returns a MultiIndexed DataFrame, each run of
+    # the model has its own 'name' in the index
     index = points.index.get_level_values("name")
     names = np.unique(index)
 
-    # create a new figure, set its size, and create an axis with a 3-D projection
+    # create new figure, set its size, and create an axis with 3-D projection
     fig = plt.figure(figsize=figsize)
     ax = fig.gca(projection="3d")
     ax.xaxis.set_pane_color((1, 1, 1, 1))
@@ -1000,7 +995,7 @@ def phase_diagram_3d(
     # make sure we have a list of colors as long as the number of model runs
     color_list = get_phase_colors(color, len(names), color_reverse)
 
-    # plot the xyz data for each run of the model that appears in the MultiIndex
+    # plot xyz data for each run of the model that appears in the MultiIndex
     for n in range(len(names)):
         xyz = points.iloc[index == names[n]]
         plots.append(
@@ -1056,10 +1051,13 @@ def get_cobweb_points(model, r, x, n):
     Steps in the calculation:
     1) Let x = 0.5
     2) Start on the x-axis at the point (x, 0).
-    3) Draw a vertical line to the red function curve: this point has the coordinates (x, f(x)).
-    4) Draw a horizontal line from this point to the gray diagonal line: this point has the coordinates (f(x), f(x)).
-    5) Draw a vertical line from this point to the red function curve: this point has the coordinates (f(x), f(f(x))).
-    6) Repeat steps 4 and 5 recursively one hundred times.
+    3) Draw a vertical line to the red function curve: this point has the
+    coordinates (x, f(x)).
+    4) Draw a horizontal line from this point to the gray diagonal line: this
+    point has the coordinates (f(x), f(x)).
+    5) Draw a vertical line from this point to the red function curve: this
+    point has the coordinates (f(x), f(f(x))).
+    6) Repeat steps 4 and 5 recursively n times.
 
     Arguments
     ---------
@@ -1077,7 +1075,6 @@ def get_cobweb_points(model, r, x, n):
     tuple
         cobweb_x_vals, cobweb_y_vals
     """
-
     cobweb_points = [(x, 0)]
     for _ in range(n):
         y1 = model(x, r)
@@ -1091,7 +1088,9 @@ def get_cobweb_points(model, r, x, n):
 
 def get_function_points(model, r, n, start, end):
     """
-    Calculate model results for n population values evenly spaced between start and end values.
+    Calculate model results for n population values.
+
+    Values are evenly spaced between start and end values.
 
     Arguments
     ---------
@@ -1111,7 +1110,6 @@ def get_function_points(model, r, n, start, end):
     tuple
         x_vals, y_vals
     """
-
     x_vals = np.linspace(start, end, n)
     y_vals = [model(x, r) for x in x_vals]
     return x_vals, y_vals
@@ -1144,9 +1142,10 @@ def cobweb_plot(
     """
     Draw a cobweb plot.
 
-    Run the map once each for 1000 population values evenly spaced between 0 and 1.
-    This gives us the results of the equation (y values) across the entire range of
-    possible population values (x values). The gray diagonal line is just a plot of y=x.
+    Run the map once each for 1000 population values evenly spaced between 0
+    and 1. This gives us the results of the equation (y values) across the
+    entire range of possible population values (x values). The gray diagonal
+    line is just a plot of y=x.
 
     Arguments
     ---------
@@ -1198,7 +1197,6 @@ def cobweb_plot(
     tuple
         (fig, ax) if show=False, otherwise returns None
     """
-
     if title_font is None:
         title_font = get_title_font()
 
@@ -1213,11 +1211,17 @@ def cobweb_plot(
     cobweb_y_vals = cobweb_y_vals[num_discard:]
 
     fig, ax = plt.subplots(figsize=figsize)
-    diagonal_line = ax.plot((0, 1), (0, 1), color="gray", linewidth=diagonal_linewidth)
-    function_line = ax.scatter(
+
+    # diagonal line
+    _ = ax.plot((0, 1), (0, 1), color="gray", linewidth=diagonal_linewidth)
+
+    # function line
+    _ = ax.scatter(
         func_x_vals, func_y_vals, color="#cc0000", edgecolor="None", s=function_linewidth
     )
-    cobweb_line = ax.plot(cobweb_x_vals, cobweb_y_vals, color="#003399", linewidth=cobweb_linewidth)
+
+    # cobweb line
+    _ = ax.plot(cobweb_x_vals, cobweb_y_vals, color="#003399", linewidth=cobweb_linewidth)
 
     ax.set_ylim((0, 1))
     ax.set_xlim((0, 1))
