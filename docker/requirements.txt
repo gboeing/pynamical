@@ -1,7 +1,10 @@
+black
 bottleneck
 coverage
-coveralls
 cython
+flake8
+flake8-bugbear
+isort
 jupyterlab
 matplotlib
 nodejs
@@ -11,6 +14,7 @@ numpy
 pandas
 pillow
 pip
+pydocstyle
 pynamical
 pytest
 python == 3.*
