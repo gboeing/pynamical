@@ -1,8 +1,9 @@
-[![PyPI version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
-[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
+[![PyPI Version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/pynamical.svg)](https://badge.fury.io/py/pynamical)
+[![Anaconda Downloads](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
 [![Documentation Status](https://readthedocs.org/projects/pynamical/badge/?version=latest)](https://pynamical.readthedocs.io/)
-[![Build Status](https://travis-ci.org/gboeing/pynamical.svg?branch=master)](https://travis-ci.org/gboeing/pynamical)
-[![Coverage Status](https://coveralls.io/repos/github/gboeing/pynamical/badge.svg?branch=master)](https://coveralls.io/github/gboeing/pynamical?branch=master)
+[![Build Status](https://github.com/gboeing/pynamical/workflows/tests/badge.svg?branch=master)](https://github.com/gboeing/pynamical/actions?query=workflow%3A%22tests%22)
+[![Coverage Status](https://codecov.io/gh/gboeing/pynamical/branch/master/graph/badge.svg)](https://codecov.io/gh/gboeing/pynamical)
 
 # pynamical
 
