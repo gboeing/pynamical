@@ -1,13 +1,10 @@
 """
 pynamical tests
--------
 """
 
 import matplotlib as mpl
 
 mpl.use("Agg")  # use agg backend so you don't need a display on travis
-
-import os
 
 import matplotlib.cm as cm
 import matplotlib.font_manager as fm

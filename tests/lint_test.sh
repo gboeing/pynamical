@@ -4,7 +4,7 @@
 set -e
 
 # delete temp files and folders
-rm -r -f .coverage .pytest_cache .temp ./docs/build src/__pycache__ tests/__pycache__
+rm -r -f .coverage .pytest_cache .temp ./docs/build pynamical/__pycache__ tests/__pycache__
 
 # check if imports are organized properly
 isort . --check-only
@@ -22,10 +22,10 @@ pydocstyle .
 make -C ./docs html
 
 # run the tests
-coverage run --source ./src --module pytest --verbose
+coverage run --source ./pynamical --module pytest --verbose
 
 # report the test coverage
 coverage report -m
 
 # delete temp files and folders
-rm -r -f .coverage .pytest_cache .temp ./docs/build src/__pycache__ tests/__pycache__
+rm -r -f .coverage .pytest_cache .temp ./docs/build pynamical/__pycache__ tests/__pycache__
