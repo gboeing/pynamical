@@ -47,7 +47,7 @@ pops = simulate(model=logistic_map, num_gens=100, rate_min=0, rate_max=4, num_ra
 bifurcation_plot(pops)
 ```
 
-![](examples/images/readme/logistic-map-bifurcation-1.png)
+![](examples/readme/logistic-map-bifurcation-1.png)
 
 Zoom into a slice of this bifurcation diagram to see its [fractal structure](examples/pynamical-demo-logistic-model.ipynb):
 
@@ -55,7 +55,7 @@ Zoom into a slice of this bifurcation diagram to see its [fractal structure](exa
 pops = simulate(model=logistic_map, num_gens=100, rate_min=3.7, rate_max=3.9, num_rates=1000, num_discard=100)
 bifurcation_plot(pops, xmin=3.7, xmax=3.9)
 ```
-![](examples/images/readme/logistic-map-bifurcation-3.png)
+![](examples/readme/logistic-map-bifurcation-3.png)
 
 Plot a two-dimensional [phase diagram](examples/pynamical-demo-phase-diagrams.ipynb) of the logistic map:
 
@@ -65,7 +65,7 @@ pops = simulate(model=logistic_map, num_gens=4000, rate_min=3.6, rate_max=4.0, n
 phase_diagram(pops, xmin=0.25, xmax=0.75, ymin=0.8, ymax=1.01, size=7, color='viridis')
 ```
 
-![](examples/images/readme/logisitic-map-2d-phase.png)
+![](examples/readme/logisitic-map-2d-phase.png)
 
 Or a three-dimensional phase diagram of the [cubic map](examples/pynamical-demo-other-models.ipynb):
 
@@ -75,14 +75,14 @@ pops = simulate(model=cubic_map, num_gens=3000, rate_min=3.5, num_rates=30, num_
 phase_diagram_3d(pops, xmin=-1, xmax=1, ymin=-1, ymax=1, zmin=-1, zmax=1, alpha=0.2, color='viridis', azim=330)
 ```
 
-![](examples/images/readme/cubic-map-3d-phase.png)
+![](examples/readme/cubic-map-3d-phase.png)
 
 Animate the 3D phase diagram of the logistic map [to reveal](examples/pynamical-demo-3d-animation.ipynb) the strange attractor's structure:
 
-![](examples/images/readme/05-logistic-3d-phase-diagram-chaotic-regime.gif)
+![](examples/readme/05-logistic-3d-phase-diagram-chaotic-regime.gif)
 
 Animate a cobweb plot of the logistic map's parameter space [to explore](examples/pynamical-demo-cobweb-plots.ipynb) sensitivity and behavior:
 
-![](examples/images/readme/animated-logistic-cobweb.gif)
+![](examples/readme/animated-logistic-cobweb.gif)
 
 Or define your [own model](https://github.com/gboeing/pynamical/blob/master/examples/pynamical-demo-other-models.ipynb) and simulate it with pynamical.
