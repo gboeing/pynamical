@@ -11,9 +11,7 @@ dependencies:
     - pandas
 
     # extras
-    - folium
-    - scikit-learn
-    - scipy
+    - jupyterlab
 
     # linting/testing
     - black

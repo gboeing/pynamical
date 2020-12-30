@@ -79,10 +79,10 @@ phase_diagram_3d(pops, xmin=-1, xmax=1, ymin=-1, ymax=1, zmin=-1, zmax=1, alpha=
 
 Animate the 3D phase diagram of the logistic map [to reveal](examples/pynamical-demo-3d-animation.ipynb) the strange attractor's structure:
 
-![](examples/images/phase-animate/05-logistic-3d-phase-diagram-chaotic-regime.gif)
+![](examples/images/readme/phase-animate/05-logistic-3d-phase-diagram-chaotic-regime.gif)
 
 Animate a cobweb plot of the logistic map's parameter space [to explore](examples/pynamical-demo-cobweb-plots.ipynb) sensitivity and behavior:
 
-![](examples/images/animated-logistic-cobweb.gif)
+![](examples/images/readme/animated-logistic-cobweb.gif)
 
 Or define your [own model](https://github.com/gboeing/pynamical/blob/master/examples/pynamical-demo-other-models.ipynb) and simulate it with pynamical.
