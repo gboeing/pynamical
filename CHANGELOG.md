@@ -1,5 +1,11 @@
 # Change log
 
+## 0.3.0 (2021-01-01)
+
+  - refactor code
+  - update dependencies
+  - python 3.9 compatibility
+
 ## 0.2.1 (2019-01-26)
 
   - python 3.7 compatibility
