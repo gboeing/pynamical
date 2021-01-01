@@ -1,2 +1,3 @@
 include LICENSE.txt
 include CHANGELOG.md
+include requirements.txt

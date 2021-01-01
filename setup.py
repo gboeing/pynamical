@@ -48,7 +48,7 @@ else:
 
 setup(
     name="pynamical",
-    version="0.3.0",
+    version="0.3.1",
     description="Model, simulate, and visualize discrete nonlinear dynamical systems",
     long_description=LONG_DESCRIPTION,
     classifiers=CLASSIFIERS,

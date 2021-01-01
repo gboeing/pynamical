@@ -1,5 +1,9 @@
 # Change log
 
+## 0.3.1 (2021-01-01)
+
+  - include requirements in distribution
+
 ## 0.3.0 (2021-01-01)
 
   - refactor code
