@@ -61,7 +61,7 @@ dependencies:
   - ipykernel=5.4.2=py38h81c977d_0
   - ipython=7.19.0=py38h81c977d_0
   - ipython_genutils=0.2.0=py_1
-  - isort=5.6.4=py_0
+  - isort=5.7.0=pyhd8ed1ab_0
   - jedi=0.18.0=py38h578d9bd_1
   - jinja2=2.11.2=pyh9f0ad1d_0
   - jpeg=9d=h36c2ea0_0
@@ -112,7 +112,7 @@ dependencies:
   - libxkbcommon=1.0.3=he3ba5ed_0
   - libxml2=2.9.10=h72842e0_3
   - llvmlite=0.35.0=py38h4630a5e_0
-  - lz4-c=1.9.2=he1b5a44_3
+  - lz4-c=1.9.3=h9c3ff4c_0
   - mako=1.1.3=pyh9f0ad1d_0
   - markupsafe=1.1.1=py38h8df0ef7_2
   - matplotlib=3.3.3=py38h578d9bd_0
@@ -155,7 +155,7 @@ dependencies:
   - prometheus_client=0.9.0=pyhd3deb0d_0
   - prompt-toolkit=3.0.8=pyha770c72_0
   - pthread-stubs=0.4=h36c2ea0_1001
-  - ptyprocess=0.6.0=py_1001
+  - ptyprocess=0.7.0=pyhd3deb0d_0
   - py=1.10.0=pyhd3deb0d_0
   - pycodestyle=2.6.0=pyh9f0ad1d_0
   - pycosat=0.6.3=py38h8df0ef7_1005
@@ -165,7 +165,7 @@ dependencies:
   - pyflakes=2.2.0=pyh9f0ad1d_0
   - pygments=2.7.3=pyhd8ed1ab_0
   - pyjwt=1.7.1=py_0
-  - pynamical=0.2.1=py_3
+  - pynamical=0.3.1=pyhd3deb0d_0
   - pyopenssl=20.0.1=pyhd8ed1ab_0
   - pyparsing=2.4.7=pyh9f0ad1d_0
   - pyqt=5.12.3=py38h578d9bd_6
@@ -225,5 +225,5 @@ dependencies:
   - zeromq=4.3.3=h58526e2_3
   - zipp=3.4.0=py_0
   - zlib=1.2.11=h516909a_1010
-  - zstd=1.4.5=h6597ccf_2
+  - zstd=1.4.8=ha95c52a_1
 prefix: /opt/conda

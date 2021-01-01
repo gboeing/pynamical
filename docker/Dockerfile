@@ -9,7 +9,7 @@
 # Push the built image to hub so others can pull/run it:
 # >>> docker login
 # >>> docker tag gboeing/pynamical gboeing/pynamical:v0.0.0
-# >>> docker push gboeing/pynamical
+# >>> docker push -a gboeing/pynamical
 #
 # Run bash in this container and export final conda environment to a yml file:
 # >>> docker run --rm -it -u 0 --name pynamical -v %cd%:/home/jovyan/work gboeing/pynamical /bin/bash
