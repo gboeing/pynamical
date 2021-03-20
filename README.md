@@ -39,7 +39,7 @@ Available on [readthedocs](https://pynamical.readthedocs.io/).
 
 ## Quick walkthrough:
 
-First load pynamical. Then simulate some model and visualize its bifurcation diagram in just 2 lines of code:
+First import pynamical. Then simulate some model and visualize its bifurcation diagram in just 2 lines of code:
 
 ```python
 from pynamical import logistic_map, simulate, bifurcation_plot
