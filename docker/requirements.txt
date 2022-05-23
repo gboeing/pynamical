@@ -17,5 +17,5 @@ pip
 pydocstyle
 pynamical
 pytest
-python == 3.8.*
+python == 3.10.*
 sphinx
