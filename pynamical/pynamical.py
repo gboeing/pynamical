@@ -160,7 +160,7 @@ def cubic_map(pop, rate):
     float
         scalar result of cubic map at time t+1
     """
-    return rate * pop ** 3 + pop * (1 - rate)
+    return rate * pop**3 + pop * (1 - rate)
 
 
 @jit(cache=True, nopython=True)  # pragma: no cover
@@ -180,7 +180,7 @@ def singer_map(pop, rate):
     float
         scalar result of singer map at time t+1
     """
-    return rate * (7.86 * pop - 23.31 * pop ** 2 + 28.75 * pop ** 3 - 13.3 * pop ** 4)
+    return rate * (7.86 * pop - 23.31 * pop**2 + 28.75 * pop**3 - 13.3 * pop**4)
 
 
 def simulate(
