@@ -1,5 +1,9 @@
 # Change log
 
+## 0.3.2 (2022-05-23)
+
+  - update dependencies compatibility
+
 ## 0.3.1 (2021-01-01)
 
   - include requirements in distribution

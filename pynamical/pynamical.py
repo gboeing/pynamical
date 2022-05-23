@@ -160,7 +160,7 @@ def cubic_map(pop, rate):
     float
         scalar result of cubic map at time t+1
     """
-    return rate * pop ** 3 + pop * (1 - rate)
+    return rate * pop**3 + pop * (1 - rate)
 
 
 @jit(cache=True, nopython=True)  # pragma: no cover
@@ -180,7 +180,7 @@ def singer_map(pop, rate):
     float
         scalar result of singer map at time t+1
     """
-    return rate * (7.86 * pop - 23.31 * pop ** 2 + 28.75 * pop ** 3 - 13.3 * pop ** 4)
+    return rate * (7.86 * pop - 23.31 * pop**2 + 28.75 * pop**3 - 13.3 * pop**4)
 
 
 def simulate(
@@ -436,7 +436,8 @@ def get_bifurcation_plot_points(pops):
     for rate in pops.columns:
         # append the growth rate as the x column and all the population values
         # as the y column
-        xy_points = xy_points.append(pd.DataFrame({"x": rate, "y": pops[rate]}))
+        to_append = pd.DataFrame({"x": rate, "y": pops[rate]})
+        xy_points = pd.concat([xy_points, to_append])
 
     # reset the index and drop old index before returning the xy point data
     xy_points = xy_points.reset_index().drop(labels="index", axis=1)
