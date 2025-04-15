@@ -1,0 +1,10 @@
+version: 2
+
+build:
+  os: ubuntu-lts-latest
+  tools:
+    python: '3.12'
+
+sphinx:
+  configuration: docs/source/conf.py
+  fail_on_warning: false

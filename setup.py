@@ -36,6 +36,9 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 # only specify install_requires if not in RTD environment
@@ -47,7 +50,7 @@ else:
 
 setup(
     name="pynamical",
-    version="0.3.2",
+    version="0.3.3",
     description="Model, simulate, and visualize discrete nonlinear dynamical systems",
     long_description=LONG_DESCRIPTION,
     classifiers=CLASSIFIERS,
@@ -57,6 +60,6 @@ setup(
     license="MIT",
     platforms="any",
     packages=["pynamical"],
-    python_requires=">=3.8",
+    python_requires=">=3.8,<3.14",
     install_requires=INSTALL_REQUIRES,
 )

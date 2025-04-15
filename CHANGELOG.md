@@ -1,4 +1,11 @@
-# Change log
+# Changelog
+
+## 0.3.3 (2025-04-15)
+
+  - final expected release of package
+  - pin max version of dependencies
+  - update dependencies compatibility
+  - support python version 3.8-3.13
 
 ## 0.3.2 (2022-05-23)
 
