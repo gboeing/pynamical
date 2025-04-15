@@ -1,3 +1,4 @@
+# This workflow runs the repo's CI tests.
 name: tests
 
 on:
@@ -20,38 +21,25 @@ jobs:
 
     defaults:
       run:
-        shell: bash -l {0}
+        shell: bash -elo pipefail {0}
 
     steps:
-
       - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
+        uses: actions/checkout@v4
 
-      - name: Cache conda
-        uses: actions/cache@v2
-        env:
-          CACHE_NUMBER: 0
+      - name: Create environment with Micromamba
+        uses: mamba-org/setup-micromamba@v2
         with:
-          path: ~/conda_pkgs_dir
-          key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ hashFiles('tests/environment-dev.yml') }}
-
-      - name: Setup conda environment
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-          use-only-tar-bz2: true  # required for caching
-          show-channel-urls: true
-          channel-priority: strict
-          activate-environment: pynamical-dev
+          cache-environment: true
+          create-args: python=${{ matrix.python-version }}
           environment-file: tests/environment-dev.yml
 
       - name: Install pynamical
         run: |
-          python setup.py install
-          conda list
-          conda info --all
+          python -m pip install .
+          python -m pip check
+          micromamba list
+          python -m pip show pynamical
 
       - name: Lint code
         run: |
