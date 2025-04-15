@@ -53,6 +53,7 @@ setup(
     version="0.3.3",
     description="Model, simulate, and visualize discrete nonlinear dynamical systems",
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/x-rst",
     classifiers=CLASSIFIERS,
     url="https://github.com/gboeing/pynamical",
     author="Geoff Boeing",
