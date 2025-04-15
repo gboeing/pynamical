@@ -37,7 +37,7 @@ def test_simulate():
         num_discard=100,
         jit=True,
     )
-    assert type(pops) == pd.DataFrame
+    assert isinstance(pops, pd.DataFrame)
     assert pops.shape == (200, 100)
 
     pops = simulate(
@@ -49,7 +49,7 @@ def test_simulate():
         num_discard=100,
         jit=False,
     )
-    assert type(pops) == pd.DataFrame
+    assert isinstance(pops, pd.DataFrame)
     assert pops.shape == (200, 100)
 
 
@@ -58,7 +58,7 @@ def test_bifurcation_plot():
     pops = simulate(
         model=logistic_map, num_gens=200, rate_min=0, rate_max=4, num_rates=100, num_discard=100
     )
-    assert type(pops) == pd.DataFrame
+    assert isinstance(pops, pd.DataFrame)
     assert pops.shape == (200, 100)
 
     # returns None
@@ -70,7 +70,7 @@ def test_phase_diagram():
     pops = simulate(
         model=singer_map, num_gens=200, rate_min=3.6, rate_max=4.0, num_rates=50, num_discard=100
     )
-    assert type(pops) == pd.DataFrame
+    assert isinstance(pops, pd.DataFrame)
     assert pops.shape == (200, 50)
 
     # returns None
@@ -105,13 +105,13 @@ def test_phase_diagram():
         folder=_img_folder,
         filename="",
     )
-    assert type(fig_ax) == tuple
+    assert isinstance(fig_ax, tuple)
 
 
 def test_phase_diagram_3d():
 
     pops = simulate(model=cubic_map, num_gens=200, rate_min=3.5, num_rates=30, num_discard=100)
-    assert type(pops) == pd.DataFrame
+    assert isinstance(pops, pd.DataFrame)
     assert pops.shape == (200, 30)
 
     # returns None

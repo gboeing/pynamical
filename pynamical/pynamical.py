@@ -2,7 +2,6 @@
 
 import os
 
-import matplotlib.cm as cm
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
