@@ -585,7 +585,7 @@ def get_phase_colors(color_request, length=1, color_reverse=False, default_color
         else:
             # if it's more than 1 character and doesn't start with # then it's
             # the name of a colormap
-            color_map = cm.get_cmap(color_request)
+            color_map = plt.get_cmap(color_request)
             color_list = color_map([x / float(length) for x in range(length)]).tolist()
 
     # make sure list is same length as specified in length argument - if not,
@@ -953,7 +953,7 @@ def phase_diagram_3d(
 
     # create new figure, set its size, and create an axis with 3-D projection
     fig = plt.figure(figsize=figsize)
-    ax = fig.gca(projection="3d")
+    ax = fig.add_subplot(projection="3d")
     ax.xaxis.set_pane_color((1, 1, 1, 1))
     ax.yaxis.set_pane_color((1, 1, 1, 1))
     ax.zaxis.set_pane_color((1, 1, 1, 1))
