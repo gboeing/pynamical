@@ -1,8 +1,8 @@
 [![PyPI Version](https://badge.fury.io/py/pynamical.svg)](https://badge.fury.io/py/pynamical)
 [![Anaconda Downloads](https://anaconda.org/conda-forge/pynamical/badges/downloads.svg)](https://anaconda.org/conda-forge/pynamical)
-[![Documentation Status](https://readthedocs.org/projects/pynamical/badge/?version=latest)](https://pynamical.readthedocs.io/)
-[![Build Status](https://github.com/gboeing/pynamical/workflows/tests/badge.svg?branch=main)](https://github.com/gboeing/pynamical/actions/workflows/tests.yml/badge.svg?branch=main)
-[![Coverage Status](https://codecov.io/gh/gboeing/pynamical/branch/main/graph/badge.svg)](https://codecov.io/gh/gboeing/pynamical)
+[![Documentation](https://readthedocs.org/projects/pynamical/badge/?version=latest)](https://pynamical.readthedocs.io/)
+[![Tests](https://github.com/gboeing/pynamical/actions/workflows/tests.yml/badge.svg)](https://github.com/gboeing/pynamical/actions/workflows/tests.yml)
+[![Coverage](https://codecov.io/gh/gboeing/pynamical/branch/main/graph/badge.svg)](https://codecov.io/gh/gboeing/pynamical)
 
 # pynamical
 
