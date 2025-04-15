@@ -11,7 +11,7 @@ dependencies:
     - pandas>=1.3,<2.3
 
     # linting/testing
-    - black=22.*
+    - black
     - coverage
     - flake8
     - flake8-bugbear
