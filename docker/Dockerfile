@@ -1,46 +1,16 @@
-########################################################################
-# Pynamical Dockerfile
-# License: MIT, see full license in LICENSE.txt
-# Web: https://github.com/gboeing/pynamical
-#
-# Build an image from the dockerfile:
-# >>> docker build -t gboeing/pynamical .
-#
-# Push the built image to hub so others can pull/run it:
-# >>> docker login
-# >>> docker tag gboeing/pynamical gboeing/pynamical:v0.0.0
-# >>> docker push -a gboeing/pynamical
-#
-# Run bash in this container and export final conda environment to a yml file:
-# >>> docker run --rm -it -u 0 --name pynamical -v %cd%:/home/jovyan/work gboeing/pynamical /bin/bash
-# >>> conda env export -n base > /home/jovyan/work/environment.yml
-#
-# Run jupyter lab in this container:
-# >>> docker run --rm -it --name pynamical -p 8888:8888 -v %cd%:/home/jovyan/work gboeing/pynamical
-# >>> docker run --rm -it --name pynamical -p 8888:8888 -v $PWD:/home/jovyan/work gboeing/pynamical
-#
-# Stop/delete all local docker containers/images:
-# >>> docker stop $(docker ps -aq)
-# >>> docker rm $(docker ps -aq)
-# >>> docker rmi $(docker images -q)
-########################################################################
-
 FROM jupyter/base-notebook
 LABEL maintainer="Geoff Boeing <boeing@usc.edu>"
 LABEL url="https://github.com/gboeing/pynamical"
 LABEL description="Pynamical is a Python package for modeling, simulating, visualizing, and animating discrete nonlinear dynamical systems and chaos."
 
-COPY requirements.txt /tmp/
+COPY --chmod=0755 requirements.txt /tmp/
 
-# configure conda and install packages in one RUN to keep image tidy
-RUN conda config --set show_channel_urls true && \
-    conda config --set channel_priority strict && \
-    conda config --prepend channels conda-forge && \
-    conda update --yes -n base conda && \
-    conda install --update-all --force-reinstall --yes --file /tmp/requirements.txt && \
-    rm -f -r -v /opt/conda/share/jupyter/kernels/python3 && \
+# install and configuration everything in one RUN to keep image tidy
+RUN conda update --yes -c conda-forge --strict-channel-priority -n base conda mamba && \
+    mamba install --update-all --force-reinstall --yes -c conda-forge --strict-channel-priority --file /tmp/requirements.txt && \
     python -m ipykernel install --sys-prefix --name pynamical --display-name "Python (pynamical)" && \
-    conda clean --all --yes && \
+    rm -f -r -v /opt/conda/share/jupyter/kernels/python3 && \
+    conda clean --all --yes --quiet && \
     conda info --all && \
     conda list && \
     jupyter kernelspec list && \
