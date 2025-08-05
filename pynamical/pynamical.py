@@ -1132,7 +1132,7 @@ def get_function_points(model, r, point_n, start, end, n):
 
 
 def cobweb_plot(
-    model=func,
+    model=logistic_map,
     r=0,
     function_n=1,
     function_point_n=1000,
