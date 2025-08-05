@@ -1044,7 +1044,7 @@ def phase_diagram_3d(
     )
 
 
-def get_cobweb_points(model, r, x, n):
+def get_cobweb_points(model, r, x, n, iters):
     """
     Calculate the vertices of cobweb lines for a cobweb plot.
 
@@ -1076,17 +1076,30 @@ def get_cobweb_points(model, r, x, n):
         cobweb_x_vals, cobweb_y_vals
     """
     cobweb_points = [(x, 0)]
-    for _ in range(n):
-        y1 = model(x, r)
-        cobweb_points.append((x, y1))
-        cobweb_points.append((y1, y1))
-        y2 = model(y1, r)
-        cobweb_points.append((y1, y2))
-        x = y1
+    if iters == 1:
+        for _ in range(n):
+            y1 = model(x, r)
+            cobweb_points.append((x, y1))
+            cobweb_points.append((y1, y1))
+            y2 = model(y1, r)
+            cobweb_points.append((y1, y2))
+            x = y1
+    else:
+        for _ in range(n):
+            y1 = model(x, r)
+            for i in range(iters-1):
+                y1 = model(y1, r)
+            cobweb_points.append((x, y1))
+            cobweb_points.append((y1, y1))
+            y2 = model(y1, r)
+            for i in range(iters-1):
+                y2 = model(y2, r)
+            cobweb_points.append((y1, y2))
+            x = y1
     return zip(*cobweb_points)
 
 
-def get_function_points(model, r, n, start, end):
+def get_function_points(model, r, point_n, start, end, n):
     """
     Calculate model results for n population values.
 
@@ -1110,15 +1123,19 @@ def get_function_points(model, r, n, start, end):
     tuple
         x_vals, y_vals
     """
-    x_vals = np.linspace(start, end, n)
+    x_vals = np.linspace(start, end, point_n)
     y_vals = [model(x, r) for x in x_vals]
+    if n > 1:
+        for i in range(n-1):
+            y_vals = [model(x, r) for x in y_vals]
     return x_vals, y_vals
 
 
 def cobweb_plot(
-    model=logistic_map,
+    model=func,
     r=0,
-    function_n=1000,
+    function_n=1,
+    function_point_n=1000,
     cobweb_n=100,
     cobweb_x=0.5,
     num_discard=0,
@@ -1204,9 +1221,9 @@ def cobweb_plot(
         label_font = get_label_font()
 
     func_x_vals, func_y_vals = get_function_points(
-        model=model, r=r, n=function_n, start=start, end=end
+        model=model, r=r, point_n=function_point_n, start=start, end=end, n=function_n
     )
-    cobweb_x_vals, cobweb_y_vals = get_cobweb_points(model=model, r=r, x=cobweb_x, n=cobweb_n)
+    cobweb_x_vals, cobweb_y_vals = get_cobweb_points(model=model, r=r, x=cobweb_x, n=cobweb_n, iters=function_n)
     cobweb_x_vals = cobweb_x_vals[num_discard:]
     cobweb_y_vals = cobweb_y_vals[num_discard:]
 
